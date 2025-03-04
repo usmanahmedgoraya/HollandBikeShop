@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bike Shop Navigation</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="utils.css">
+    <link rel="stylesheet" href="cart-modal.css">
+    <link rel="stylesheet" href="menue-modal.css">
+    <link rel="stylesheet" href="search-modal.css">
+    <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.11.0/css/flag-icons.min.css">
+</head>
+
+<body>
+    <!-- Top Banner -->
+    <div class="top-banner">
+        <span class="hidden-banners">
+            <i class="fa-solid fa-check icon-color"></i>
+            <span class="text-black ">
+                <b>Snelle</b> Levering
+            </span>
+        </span>
+        <span class="mobile-view">
+            <i class="fa-solid fa-check icon-color text-green"></i>
+            <span class="text-black">
+                <b>30 dagen</b> bedenktijd
+            </span>
+        </span>
+        <span class="hidden-banners">
+            <i class="fa-solid fa-check icon-color"></i>
+            <span class="text-black">
+                <b>8.9/10</b> klantbeoordeling
+            </span>
+        </span>
+        <span class="hidden-banners">
+            <i class="fa-solid fa-check icon-color"></i>
+            <span class="text-black">
+                <b>2 jaar</b> Garantie
+            </span>
+        </span>
+        <span class="hidden-banners">
+            <i class="fa-solid fa-check icon-color"></i>
+            <span class="text-black">
+                <b>Keurmerk</b> Webshop
+            </span>
+        </span>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <button id="mobileMenuBtn" class="mobile-menu-btn">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <a href="/" class="logo white-logo">
+            <img src="./images/HBSLOGOWHITE.svg" alt="logo">
+        </a>
+        <a href="/" class="logo non-white-logo">
+            <img src="./images/HBSLOGOORANGE.svg" alt="logo">
+        </a>
+        <div class="searchbar-container">
+            <div class="search-bar">
+                <input type="text" placeholder="Zoekterm, EAN of artikelnummer...">
+                <button class="search-button">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <div class="search-dropdown" id="searchDropdown">
+                    <!-- Quick Suggestions -->
+                    <div class="search-suggestions">
+                        <!-- Suggestions will be populated by JavaScript -->
+                    </div>
+    
+                    <!-- Product Results -->
+                    <div class="product-results">
+                        <!-- Products will be populated by JavaScript -->
+                    </div>
+    
+                    <div class="results-count">
+                        <a href="#">2562 Resultaten <i class="fa-solid fa-chevron-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-actions ">
+            <div class="selector-group">
+                <button class="selector-btn language-selector" data-type="language">
+                    <span class="fi fi-nl"></span>
+                    <div class="flex items-end">
+                        <span class="selected-language">Nederlands</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                </button>
+                <button class="selector-btn country-currency-selector" data-type="country">
+                    <div class="flex gap-2 items-center">
+                        <div class="flex gap-1 items-end">
+                            <span class="selected-country">Nederland</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="selected-currency">
+                            <i class="fa-solid fa-euro-sign"></i>
+                            <span>EURO</span>
+                        </div>
+                    </div>
+                </button>
+            </div>
+            <div class="person-icon md:hidden">
+                <img src="./images/personorange.svg" alt="person-logo">
+            </div>
+            <picture class="wishlist-icon">
+                <source media="(max-width: 480px)" class="orange-heart" srcset="./images/HEARTHORANGE.svg" />
+                <img src="./images/HEARTHWHITE.svg" alt="logo" />
+            </picture>
+            <div class="cart-icon hide-before mr-3 mb-1">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <span class="cart-badge">0</span>
+                <!-- Cart Modal -->
+                <div class="cart-modal" id="cartModal">
+                    <div class="cart-header">
+                        <h2>Winkelwagen</h2>
+                        <div class="close-cart" id="closeCart">
+                            Winkelwagen bewerken
+                        </div>
+                    </div>
+                    <div class="cart-content">
+                        <div class="cart-items">
+                            <div class="cart-item">
+                                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-02-20%20at%2010.46.19_c5d8a48f.jpg-NM6Xg8MJnm22H50e89PsVI4sF9DAq4.jpeg"
+                                    alt="BikeNL Zadeldekje" class="cart-item-image">
+                                <div class="cart-item-details">
+                                    <h3>BikeNL Zadeldekje Universeel Waterdicht</h3>
+                                    <div class="cart-item-price">
+                                        <span>1 stuk(s)</span>
+                                        <!-- <span class="original-price">€ 6,95</span> -->
+                                        <span class="discounted-price">€ 4,95</span>
+                                    </div>
+                                    <!-- <div class="cart-item-quantity">
+                            <button class="quantity-btn minus">-</button>
+                            <input type="number" value="1" min="1" max="99">
+                            <button class="quantity-btn plus">+</button>
+                        </div> -->
+                                </div>
+                                <!-- <button class="remove-item">×</button> -->
+                            </div>
+                        </div>
+                        <div class="cart-summary">
+                            <!-- <div class="summary-row">
+                    <span>Subtotaal</span>
+                    <span>€ 4,95</span>
+                </div>
+                <div class="summary-row">
+                    <span>Verzendkosten</span>
+                    <span>€ 4,95</span>
+                </div> -->
+                            <div class="summary-row total">
+                                <span>Totaal</span>
+                                <span>€ 9,90</span>
+                            </div>
+                            <button class="checkout-btn">Bestellen</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Sidebar -->
+    <div id="mobileSidebar" class="mobile-sidebar">
+        <div class="sidebar-header">
+            <div>Menu</div>
+            <button id="closeSidebarBtn" class="close-sidebar">
+                <i class="fa-solid fa-times"></i>
+            </button>
+        </div>
+        <div class="sidebar-content">
+
+            <nav class="mobile-nav">
+                <div class="mobile-nav-link">
+                    <div class=" relative ">
+                        <div class="sidebar-nav-icon flex items-start gap-3 font-semibold pt-4">
+                            <img src="./images/SVG/__36.svg" alt="Fietsonderdelen">
+                            Fietsonderdelen
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right nav-icons"></i>
+                </div>
+                <div class="mobile-nav-link">
+                    <div class=" relative ">
+                        <div class="sidebar-nav-icon flex items-start gap-3 font-semibold pt-4">
+                            <img src="./images/SVG/__36.svg" alt="Fietsaccessoires">
+                            Fietsaccessoires
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right nav-icons"></i>
+                </div>
+                <div class="mobile-nav-link">
+                    <div class=" relative ">
+                        <div class="sidebar-nav-icon flex items-start gap-3 font-semibold pt-4">
+                            <img src="./images/SVG/__36.svg" alt="Fietskleding">
+                            Fietskleding
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right nav-icons"></i>
+                </div>
+                <div class="mobile-nav-link">
+                    <div class=" relative ">
+                        <div class="sidebar-nav-icon flex items-start gap-3 font-semibold pt-4">
+                            <img src="./images/SVG/__32.svg" alt="Fietsen">
+                            Fietsen
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right nav-icons"></i>
+                </div>
+                <div class="mobile-nav-link sale">
+                    <div class=" relative ">
+                        <div class="sidebar-nav-icon flex items-start gap-3 font-semibold pt-4">
+                            <img src="./images/SVG/__36.svg" alt="sale">
+                            Sale
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right nav-icons"></i>
+                </div>
+            </nav>
+            <div class="mobile-selectors">
+                <div class="grid grid-cols-3 align-items-center gap-4 ml-3">
+                    <div class="text-sm">Taal</div>
+                    <div class="flex gap-1 small-text value-text" data-type="language">
+                        <span class="fi fi-nl icon-size"></span>
+                        <span>Nederlands</span>
+                    </div>
+                    <div class="mobile-selector verander-container" data-type="language">Verander
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </div>
+
+
+                    <div class="text-sm">Besteeming</div>
+                    <div class="flex gap-1 small-text value-text" data-type="country">
+                        <span class="fi fi-nl icon-size"></span>
+                        <span>Nederlands</span>
+                    </div>
+                    <div class="mobile-selector verander-container" data-type="language">Verander
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </div>
+
+                    <div class="text-sm">Valuta</div>
+                    <div class="flex gap-1 small-text value-text" data-type="currency">
+                        <span class="fi fi-nl icon-size"></span>
+                        <span>Nederlands</span>
+                    </div>
+                    <div class="mobile-selector verander-container" data-type="language">Verander
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </div>
+                </div>
+                <!-- <button class="mobile-selector" data-type="country">
+                    <span class="fi fi-nl"></span>
+                    <span>Nederland (EUR)</span>
+                </button> -->
+            </div>
+            <div class="mobile-actions">
+                <div class="mobile-action">
+                    Contact
+                    <i class="fa-solid fa-chevron-right nav-icons"></i>
+                </div>
+                <div class="mobile-action">
+                    Jouw Account
+                    <i class="fa-solid fa-chevron-right nav-icons"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="main-navigation">
+        <div class="nav-container">
+            <ul class="primary-nav">
+                <li>
+                    <div class="nav-link">Fietsonderdelen</div>
+                </li>
+                <li class="active-link-style active">
+                    <div class="nav-link active">Fietsaccessoires</div>
+                </li>
+                <li>
+                    <div class="nav-link">Fietskleding</div>
+                </li>
+                <li>
+                    <div class="nav-link">Fietsen</div>
+                </li>
+                <li>
+                    <div class="nav-link sale">Sale</div>
+                </li>
+            </ul>
+            <div class="nav-actions">
+                <div class="nav-action">
+                    <i class="fa-solid fa-user"></i>
+                    Inloggen
+                </div>
+                <div class="nav-action">
+                    <i class="fa-solid fa-phone"></i>
+                    Contact
+                </div>
+            </div>
+        </div>
+        <!-- Mega Menu -->
+        <div class="mega-menu" id="megaMenu">
+            <div class="mega-menu-container">
+                <div class="mega-menu-grid">
+                    <!-- Column 1 -->
+                    <div class="menu-column">
+                        <div class="menu-category">
+                            <div class="category-icon">
+                                <img src="/images/SVG/_-01.svg" alt="Bidons">
+                            </div>
+                            <div class="category-content">
+                                <h3>Bidons</h3>
+                                <ul>
+                                    <li><a href="#">Bidonhouders</a></li>
+                                    <li><a href="#">Bidonhouder Onderdelen</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="menu-category">
+                            <div class="category-icon">
+                                <img src="/images/SVG/_-02.svg" alt="Fietsaccessoires">
+                            </div>
+                            <div class="category-content">
+                                <h3>Fietsaccessoires</h3>
+                                <ul>
+                                    <li><a href="#">Telefoon Fietshouder</a></li>
+                                    <li><a href="#">Fietsbellen</a></li>
+                                    <li><a href="#">Fietsspiegel</a></li>
+                                    <li><a href="#">Batterij</a></li>
+                                    <li><a href="#">Snelbinder</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="menu-category">
+                            <div class="category-icon">
+                                <img src="/images/SVG/_-03.svg" alt="Fietscomputers">
+                            </div>
+                            <div class="category-content">
+                                <h3>Fietscomputers</h3>
+                                <ul>
+                                    <li><a href="#">Fietsnavigatie</a></li>
+                                    <li><a href="#">Fietscomputer Onderdelen</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 2 -->
+                    <div class="menu-column">
+                        <div class="menu-category">
+                            <div class="category-icon">
+                                <img src="/images/SVG/_-04.svg" alt="Fietsendragers">
+                            </div>
+                            <div class="category-content">
+                                <h3>Fietsendragers</h3>
+                                <ul>
+                                    <li><a href="#">Dakdragers</a></li>
+                                    <li><a href="#">Onderdelen Fietsendragers</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="menu-category">
+                            <div class="category-icon">
+                                <img src="/images/SVG/_-05.svg" alt="Fietsgereedschap">
+                            </div>
+                            <div class="category-content">
+                                <h3>Fietsgereedschap</h3>
+                                <ul>
+                                    <li><a href="#">Lierslift</a></li>
+                                    <li><a href="#">Fietsbeugels & Fietsstandaards</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="menu-category">
+                            <div class="category-icon">
+                                <img src="/images/SVG/_-06.svg" alt="Fietshoes">
+                            </div>
+                            <div class="category-content">
+                                <h3>Fietshoes</h3>
+                                <ul>
+                                    <li><a href="#">Fietskoffers</a></li>
+                                    <li><a href="#">Fiets Draagtassen</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="menu-category">
+                            <div class="category-icon">
+                                <img src="/images/SVG/_-07.svg" alt="Fietshoes">
+                            </div>
+                            <div class="category-content">
+                                <h3>Fietskarren</h3>
+                                <ul>
+                                    <li><a href="#">Fietsker Onderdelen</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="menu-category">
+                            <div class="category-icon">
+                                <img src="/images/SVG/_-12.svg" alt="Fietstassen">
+                            </div>
+                            <div class="category-content">
+                                <h3>Fietstassen</h3>
+                                <ul>
+                                    <li><a href="#">Tas Onderdelen</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 3 -->
+                    <div class="menu-column">
+                        <div class="menu-category">
+                            <div class="category-icon">
+                                <img src="/images/SVG/_-08.svg" alt="Fietslak en Verf">
+                            </div>
+                            <div class="category-content">
+                                <h3>Fietslak en Verf</h3>
+                                <ul>
+                                    <li><a href="#">Kwasten</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="menu-category">
+                            <div class="category-icon">
+                                <img src="/images/SVG/_-09.svg" alt="Fietspompen">
+                            </div>
+                            <div class="category-content">
+                                <h3>Fietspompen</h3>
+                                <ul>
+                                    <li><a href="#">Fietspomp Onderdelen</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="menu-category">
+                            <div class="category-icon">
+                                <img src="/images/SVG/_-10.svg" alt="Fietssloten">
+                            </div>
+                            <div class="category-content">
+                                <h3>Fietssloten</h3>
+                                <ul>
+                                    <li><a href="#">Fietsslot bevestigings materiaal</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="menu-category">
+                            <div class="category-icon">
+                                <img src="/images/SVG/_-11.svg" alt="Fietssloten">
+                            </div>
+                            <div class="category-content">
+                                <h3>Fietsstoelje</h3>
+                                <ul>
+                                    <li><a href="#">Fietsstoelje bakfiets</a></li>
+                                    <li><a href="#">Bagagedrager Kussen</a></li>
+                                    <li><a href="#">Fietszitje Onderdelen</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 4 -->
+                    <div class="menu-column">
+                        <div class="menu-category">
+                            <div class="category-icon">
+                                <img src="/images/SVG/_-12.svg" alt="Fietsmanden">
+                            </div>
+                            <div class="category-content">
+                                <h3>Fietsmanden</h3>
+                                <ul>
+                                    <li><a href="#">Fietskrat</a></li>
+                                    <li><a href="#">Fietsmand Hond</a></li>
+                                    <li><a href="#">Fietsmand Onderdelen</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="menu-category">
+                            <div class="category-icon">
+                                <img src="/images/SVG/_-14.svg" alt="Fietstrainers">
+                            </div>
+                            <div class="category-content">
+                                <h3>Fietstrainers</h3>
+                            </div>
+                        </div>
+
+                        <div class="menu-category">
+                            <div class="category-icon">
+                                <img src="/images/SVG/_-15.svg" alt="Fiets Schoonmaakmiddelen">
+                            </div>
+                            <div class="category-content">
+                                <h3>Fiets Schoonmaakmiddelen</h3>
+                                <ul>
+                                    <li><a href="#">Schoonmaakset</a></li>
+                                    <li><a href="#">Schoonmaak Toebehoren</a></li>
+                                    <li><a href="#">Mobiele Drukreiniger</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="menu-category">
+                            <div class="category-icon">
+                                <img src="/images/SVG/_-16.svg" alt="Smeermiddle">
+                            </div>
+                            <div class="category-content">
+                                <h3>Smeermiddle</h3>
+                                <ul>
+                                    <li><a href="#">Kettingreiniger</a></li>
+                                    <li><a href="#">Ontvetter</a></li>
+                                    <li><a href="#">Rem Vloeistof</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 5 -->
+                    <div class="menu-column">
+                        <div class="menu-category">
+                            <div class="category-icon">
+                                <img src="/images/SVG/_-17.svg" alt="Sportvoeding">
+                            </div>
+                            <div class="category-content">
+                                <h3>Sportvoeding</h3>
+                                <ul>
+                                    <li><a href="#">Sport Drank</a></li>
+                                    <li><a href="#">Verzorging</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="menu-category">
+                            <div class="category-icon">
+                                <img src="/images/SVG/_-18.svg" alt="Kinderfiets Accessoires">
+                            </div>
+                            <div class="category-content">
+                                <h3>Kinderfiets Accessoires</h3>
+                                <ul>
+                                    <li><a href="#">Kinderbellen</a></li>
+                                    <li><a href="#">Kinder Fietstassen</a></li>
+                                    <li><a href="#">Kinder Fietsmanden</a></li>
+                                    <li><a href="#">Kinderfiets Krat</a></li>
+                                    <li><a href="#">Zijwielen Kinderfiets</a></li>
+                                    <li><a href="#">Veiligheids Kinderfiets</a></li>
+                                    <li><a href="#">Driewieler Kinderfiets</a></li>
+                                    <li><a href="#">Hockeyklem & Racketclip</a></li>
+                                    <li><a href="#">Poppenzitjes</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-container">
+            <ul class="breadcrumb-list">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Fietsaccessoires</a></li>
+                <li><a href="#">Fietszadels & Zadelpennen</a></li>
+                <li><a href="#">Fietszadeldekje</a></li>
+                <li class="current">Fietszadeldekje Universeel</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Language Modal -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="language-modal" id="languageModal">
+        <div class="close-modal" id="closeModal">×</div>
+        <div class="tabs-container">
+            <div class="tabs-menu" id="tabsMenu">
+                <button class="tab-btn" data-tab="country">Land</button>
+                <button class="tab-btn active" data-tab="language">Taal</button>
+                <button class="tab-btn" data-tab="currency">Valuta</button>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <!-- Country Content -->
+            <div class="content-section" id="countryContent" hidden>
+                <div class="country-header">
+                    <h3>Meet gekozen</h3>
+                    <div class="country-search">
+                        <input type="text" name="searchCountry" id="searchCountry" placeholder="Land Zoeken...">
+                        <button class="search-button country-search-button">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="options-grid">
+                    <button class="option-btn" data-country="nl">
+                        <span class="fi fi-de"></span>
+                        <span class="option-text">Duitsland</span>
+                    </button>
+                    <button class="option-btn" data-country="be">
+                        <span class="fi fi-be"></span>
+                        <span class="option-text">BelgiÃ«</span>
+                    </button>
+                    <button class="option-btn" data-country="de">
+                        <span class="fi fi-nl"></span>
+                        <span class="option-text">Naderland</span>
+                    </button>
+                    <button class="option-btn" data-country="fr">
+                        <span class="fi fi-es"></span>
+                        <span class="option-text">Spanje</span>
+                    </button>
+                    <button class="option-btn" data-country="gb">
+                        <span class="fi fi-fr"></span>
+                        <span class="option-text">Frankrijk</span>
+                    </button>
+                    <button class="option-btn" data-country="es">
+                        <span class="fi fi-es"></span>
+                        <span class="option-text">Spanje</span>
+                    </button>
+                </div>
+
+                <div id="countryListContainer">
+                    <!-- Country list will be dynamically generated here -->
+                </div>
+            </div>
+
+            <!-- Language Content -->
+            <div class="content-section" id="languageContent">
+                <h3>Selecteer je taal</h3>
+                <div class="options-grid">
+                    <button class="option-btn" data-language="nl">
+                        <span class="fi fi-nl"></span>
+                        <span class="option-text">Nederlands</span>
+                    </button>
+                    <button class="option-btn" data-language="en">
+                        <span class="fi fi-gb"></span>
+                        <span class="option-text">English</span>
+                    </button>
+                    <button class="option-btn" data-language="de">
+                        <span class="fi fi-de"></span>
+                        <span class="option-text">Deutsch</span>
+                    </button>
+                    <button class="option-btn" data-language="fr">
+                        <span class="fi fi-fr"></span>
+                        <span class="option-text">Français</span>
+                    </button>
+                    <button class="option-btn" data-language="es">
+                        <span class="fi fi-es"></span>
+                        <span class="option-text">Español</span>
+                    </button>
+                    <button class="option-btn" data-language="it">
+                        <span class="fi fi-it"></span>
+                        <span class="option-text">Italiano</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Currency Content -->
+            <div class="content-section" id="currencyContent" hidden>
+                <h3>Selecteer je valuta</h3>
+                <div class="options-grid">
+                    <button class="option-btn" data-currency="EUR">
+                        <i class="fa-solid fa-euro-sign currency-icon"></i>
+                        <span class="option-text">Euro</span>
+                    </button>
+                    <button class="option-btn" data-currency="GBP">
+                        <i class="fa-solid fa-sterling-sign currency-icon"></i>
+                        <span class="option-text">British Pound</span>
+                    </button>
+                    <button class="option-btn" data-currency="USD">
+                        <i class="fa-solid fa-dollar-sign currency-icon"></i>
+                        <span class="option-text">US Dollar</span>
+                    </button>
+                    <button class="option-btn" data-currency="CHF">
+                        <i class="fa-solid fa-franc-sign currency-icon"></i>
+                        <span class="option-text">Swiss Franc</span>
+                    </button>
+                    <button class="option-btn" data-currency="SEK">
+                        <i class="fa-solid fa-swedish-krona-sign currency-icon"></i>
+                        <span class="option-text">Swedish Krona</span>
+                    </button>
+                    <button class="option-btn" data-currency="NOK">
+                        <i class="fa-solid fa-norwegian-krone-sign currency-icon"></i>
+                        <span class="option-text">Norwegian Krone</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <!-- Mobile Ratings Section (visible only on mobile) -->
+        <div class="mobile-only ratings-section">
+            <h2>Klantbeoordelingen</h2>
+            <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+            <p class="rating-count">7915 Beoordelingen</p>
+        </div>
+
+        <!-- Mobile Accordion (visible only on mobile) -->
+        <div class="mobile-only accordion-section">
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h3>Je klantgegevens</h3>
+                    <span class="accordion-icon">
+                        <i class="fa-solid fa-angle-down"></i>
+                    </span>
+                </div>
+                <div class="accordion-content">
+                    <ul>
+                        <li><a href="#">Mijn account</a></li>
+                        <li><a href="#">Eerdere bestellingen</a></li>
+                        <li><a href="#">Adresboek</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h3>Klantenservice</h3>
+                    <span class="accordion-icon">
+                        <i class="fa-solid fa-angle-down"></i>
+                    </span>
+                </div>
+                <div class="accordion-content">
+                    <ul>
+                        <li><a href="#">Servicepagina</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Verzendkosten, Levertijd & Bezorging</a></li>
+                        <li><a href="#">Retourbeleid</a></li>
+                        <li><a href="#">E-Bike Foutcodes</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h3>Algemene informatie</h3>
+                    <span class="accordion-icon">
+                        <i class="fa-solid fa-angle-down"></i>
+                    </span>
+                </div>
+                <div class="accordion-content">
+                    <ul>
+                        <li><a href="#">Over Ons</a></li>
+                        <li><a href="#">Privacy Verklaring</a></li>
+                        <li><a href="#">Algemene Voorwaarden</a></li>
+                        <li><a href="#">Sitemap</a></li>
+                        <li><a href="#">Dutch-Repairs</a></li>
+                        <li><a href="#">Merken</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Desktop Footer Top (visible only on desktop) -->
+        <div class="desktop-only footer-top">
+            <div class="footer-container">
+                <div class="footer-column brand-column">
+                    <div class="logo-container">
+                        <img src="./images/HBSLOGOWHITE.svg" alt="HBS logo">
+                    </div>
+                    <div class="social-container">
+                        <div class="mascot">
+                            <img src="./images/footer-cycle-logo.png" alt="Mascot" class="mascot-image">
+                        </div>
+                        <div>
+                            <p class="social-text">Volg je ons al?</p>
+                            <div class="social-icons">
+                                <a href="#" class="social-icon instagram">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="currentColor">
+                                        <path
+                                            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                                    </svg>
+                                </a>
+                                <a href="#" class="social-icon facebook">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="currentColor">
+                                        <path
+                                            d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h3 class="column-title">Uw klantgegevens</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Mijn account</a></li>
+                        <li><a href="#">Eerdere bestellingen</a></li>
+                        <li><a href="#">Adresboek</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3 class="column-title">Klantenservice</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Servicepagina</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li class="leading-none"><a href="#">Verzendkosten, Levertijd & <br /> Bezorging</a></li>
+                        <li><a href="#">Retourbeleid</a></li>
+                        <li><a href="#">E-Bike Foutcodes</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3 class="column-title">Algemene informatie</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Over Ons</a></li>
+                        <li><a href="#">Privacy Verklaring</a></li>
+                        <li><a href="#">Algemene Voorwaarden</a></li>
+                        <li><a href="#">Sitemap</a></li>
+                        <li><a href="#">Dutch-Repairs</a></li>
+                        <li><a href="#">Merken</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column rating-column ">
+                    <h3 class="column-title pl-3">Klantbeoordeling</h3>
+                    <div class="rating">
+                        <div class="stars">
+                            <span class="star"><i class="fa-solid fa-star"></i></span>
+                            <span class="star"><i class="fa-solid fa-star"></i></span>
+                            <span class="star"><i class="fa-solid fa-star"></i></span>
+                            <span class="star"><i class="fa-solid fa-star"></i></span>
+                            <span class="star"><i class="fa-solid fa-star"></i></span>
+                        </div>
+                        <div class="rating-count">7915 Beoordelingen</div>
+                    </div>
+                    <div class="certification">
+                        <img src="./images/verification-stamp.png" alt="Webshop Keurmerk" class="cert-image">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Logo Section (visible only on mobile) -->
+        <div class="mobile-only logo-section">
+            <div class="logo-container">
+                <img src="./images/HBSLOGOORANGE.svg" alt="Hollandbikeshop.com" class="logo">
+            </div>
+            <p class="follow-text">Volg je ons al?</p>
+            <div class="social-icons">
+                <a href="#" class="social-icon instagram">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="currentColor">
+                        <path
+                            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                    </svg>
+                </a>
+                <a href="#" class="social-icon facebook">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="currentColor">
+                        <path
+                            d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+        <!-- Mobile Certification Section (visible only on mobile) -->
+        <div class="mobile-only certification-section">
+            <img src="./images/verification-stamp.png" alt="Webshop Keurmerk" class="cert-image">
+        </div>
+
+        <!-- Footer Bottom (shared between mobile and desktop) -->
+        <div class="footer-bottom">
+            <div class="payments">
+                <div class="payment-method">
+                    <img src="./images/mastercard.png" alt="mastercard" width="100%">
+                </div>
+                <div class="payment-method">
+                    <img src="./images/mastercard.png" alt="visa" width="100%">
+                </div>
+                <div class="payment-method">
+                    <img src="./images/mastercard.png" alt="paypal" width="100%">
+                </div>
+                <div class="payment-method">
+                    <img src="./images/mastercard.png" alt="ideal" width="100%">
+                </div>
+                <div class="payment-method">
+                    <img src="./images/mastercard.png" alt="klarna" width="100%">
+                </div>
+                <div class="payment-method">
+                    <img src="./images/mastercard.png" alt="bancontact" width="100%">
+                </div>
+                <div class="payment-method">
+                    <img src="./images/mastercard.png" alt="amex" width="100%">
+                </div>
+                <div class="payment-method">
+                    <img src="./images/mastercard.png" alt="dhl" width="100%">
+                </div>
+                <div class="payment-method">
+                    <img src="./images/mastercard.png" alt="sofort" width="100%">
+                </div>
+                <div class="payment-method">
+                    <img src="./images/mastercard.png" alt="giropay" width="100%">
+                </div>
+                <div class="payment-method">
+                    <img src="./images/mastercard.png" alt="cartebleue" width="100%">
+                </div>
+            </div>
+            <div class="footer-container">
+                <div class="copyright">
+                    Copyright © 2008 - 2023 Hollandbikeshop.com Webshop by MARK-APP
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+    <script src="https://kit.fontawesome.com/91880b2052.js" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+    <script src="countries.js"></script>
+    <script src="cart-modal.js"></script>
+    <script src="search-modal.js"></script>
+    <script src="menu-modal.js"></script>
+    <script src="footer.js"></script>
+</body>
+
+</html>

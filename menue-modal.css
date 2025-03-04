@@ -1,0 +1,128 @@
+.mega-menu {
+    display: none;
+    position: absolute;
+    top: 95%;
+    left: 0;
+    width: 100%;
+    background: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    padding: 20px 0;
+    border-top: 1px solid rgb(188, 187, 187);
+}
+
+.active-link-style::before{
+    content: "";
+    position: absolute;
+    top: -18%;
+    left: 24%;
+    /* transform: translateX(-50%); */
+    width: 10rem;
+    height: 3.5rem;
+    background: #ffffff;
+    border: 1px solid rgb(188, 187, 187);
+    z-index: 1000;
+    border-bottom: none;
+    border-radius: 4px;
+    box-shadow: inset 0px 9px 7px 0px rgba(0, 0, 0, 0.1);
+    /* border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #ff7518; */
+}
+
+.active-link-style.active::before{
+    display: none;
+}
+
+
+
+.mega-menu.active {
+    display: block;
+}
+
+.mega-menu-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.mega-menu-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+}
+
+.menu-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.menu-category {
+    display: flex;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.menu-category:hover {
+    color: #ff7518;
+}
+
+.category-icon {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+}
+
+.category-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.category-content {
+    flex: 1;
+}
+
+.category-content h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.category-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* .category-content li {
+    margin-bottom: 4px;
+} */
+
+.category-content a {
+    color: #666;
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.2s ease;
+}
+
+.category-content a:hover {
+    color: #ff7518;
+}
+
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+    .mega-menu-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .mega-menu {
+        display: none !important; /* Hide on mobile - use mobile menu instead */
+    }
+}
