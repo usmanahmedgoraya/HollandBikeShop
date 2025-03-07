@@ -34,7 +34,7 @@
 }
 
 .cart-modal.active {
-    right: 6.1%;
+    right: 6.01%;
     display: block;
 }
 
@@ -220,7 +220,7 @@
 
 @media (max-width: 1024px) {
     .cart-modal.active {
-        right: 1.3rem;
+        right: 1.24rem;
     }
 
     .cart-icon::before {
@@ -230,12 +230,12 @@
 
 @media (max-width: 768px) {
     .cart-modal.active {
-        right: 1.3rem;
-        top: 7.4rem;
+        right: 1rem;
+        top: 7rem;
     }
 
     .cart-icon::before {
-        right: -8px;
+        right: -12px;
         height: 73px;
     }
 }
@@ -246,15 +246,15 @@
     }
 
     .cart-modal.active {
-        right: 0.7rem;
+        right: 0.5rem;
         top: 6.2rem;
     }
 
     .cart-icon::before {
-        height: 59px;
-        top: -1px;
-        right: -7px;
-        width: 32px;
+        height: 67px;
+        top: -7px;
+        right: -10px;
+        width: 38px;
     }
 }
 

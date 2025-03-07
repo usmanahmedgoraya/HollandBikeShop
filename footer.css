@@ -219,7 +219,8 @@ body {
 }
 
 .footer-container {
-  max-width: 1200px;
+  /* max-width: 1200px; */
+  max-width: 89vw;
   margin: 0 auto;
   padding: 0 15px;
   display: flex;

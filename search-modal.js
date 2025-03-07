@@ -15,7 +15,7 @@ const searchDropdown = (() => {
         isMobile: window.innerWidth <= 768,
         isLoading: false,
         hasSearched: false,
-    }
+    };
 
     const elements = {
         searchInput: document.querySelector(".search-bar input"),
@@ -30,64 +30,64 @@ const searchDropdown = (() => {
         clearButton: document.querySelector(".clear-button"),
         noResultsContainer: document.createElement("div"),
         resultsCountElement: document.querySelector(".results-count"),
-    }
+    };
 
     // Initialize the no results container
-    elements.noResultsContainer.className = "no-results-container"
+    elements.noResultsContainer.className = "no-results-container";
     elements.noResultsContainer.innerHTML = `
-          <div class="no-results">
-              <i class="fa-solid fa-search"></i>
-              <p>Geen resultaten gevonden</p>
-              <span>Probeer een andere zoekterm</span>
-          </div>
-      `
+        <div class="no-results">
+            <i class="fa-solid fa-search"></i>
+            <p>Geen resultaten gevonden</p>
+            <span>Probeer een andere zoekterm</span>
+        </div>
+    `;
 
     function handleSearchFocus() {
-        openDropdown()
+        openDropdown();
     }
 
     function handleSearchInput(e) {
-        state.searchTerm = e.target.value
-        state.hasSearched = true
-        updateSuggestions()
-        toggleClearButton()
+        state.searchTerm = e.target.value;
+        state.hasSearched = true;
+        updateSuggestions();
+        toggleClearButton();
 
         if (state.searchTerm.length >= 3) {
-            searchProducts()
+            searchProducts();
         } else {
             // If search term is too short, still show default products
-            updateProductResults(getDefaultProducts())
-            checkAndDisplayNoResults()
+            updateProductResults(getDefaultProducts());
+            checkAndDisplayNoResults();
         }
     }
 
     function toggleClearButton() {
         if (elements.clearButton) {
             if (state.searchTerm.length > 0) {
-                elements.clearButton.style.display = "flex"
+                elements.clearButton.style.display = "flex";
             } else {
-                elements.clearButton.style.display = "none"
+                elements.clearButton.style.display = "none";
             }
         }
     }
 
     function clearSearch() {
-        elements.searchInput.value = ""
-        state.searchTerm = ""
-        state.hasSearched = true
-        toggleClearButton()
+        elements.searchInput.value = "";
+        state.searchTerm = "";
+        state.hasSearched = true;
+        toggleClearButton();
 
         // Show all suggestions when search is cleared
-        updateSuggestions()
+        updateSuggestions();
 
         // Show default products when search is cleared
-        updateProductResults(getDefaultProducts())
+        updateProductResults(getDefaultProducts());
 
-        elements.searchInput.focus()
+        elements.searchInput.focus();
 
         // Also update mobile input if it exists
         if (state.isMobile && elements.mobileHeader) {
-            elements.mobileHeader.querySelector("input").value = ""
+            elements.mobileHeader.querySelector("input").value = "";
         }
     }
 
@@ -97,13 +97,19 @@ const searchDropdown = (() => {
             !e.target.closest(".search-dropdown") &&
             !e.target.closest(".mobile-search-header")
         ) {
-            closeDropdown()
+            closeDropdown();
         }
     }
 
     function handleKeydown(e) {
         if (e.key === "Escape") {
-            closeDropdown()
+            closeDropdown();
+        } else if (e.key === "Enter") {
+            // Close dropdown and set the search term when Enter is pressed
+            closeDropdown();
+            state.searchTerm = elements.searchInput.value.trim();
+            updateSuggestions();
+            searchProducts();
         }
     }
 
@@ -113,64 +119,65 @@ const searchDropdown = (() => {
             const allSuggestionsHtml = state.suggestions
                 .map(
                     (suggestion) => `
-              <div class="suggestion-item">
-                  <i class="fa-solid fa-magnifying-glass"></i>
-                  <span>${suggestion}</span>
-              </div>
-          `
+                <div class="suggestion-item">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <span>${suggestion}</span>
+                </div>
+            `
                 )
-                .join("")
+                .join("");
 
-            elements.suggestionsContainer.innerHTML = allSuggestionsHtml
-            elements.suggestionsContainer.style.display = "block"
-            return
+            elements.suggestionsContainer.innerHTML = allSuggestionsHtml;
+            elements.suggestionsContainer.style.display = "block";
+            return;
         }
 
         // Otherwise, filter suggestions based on search term
         const filteredSuggestions = state.suggestions.filter((suggestion) =>
             suggestion.toLowerCase().includes(state.searchTerm.toLowerCase())
-        )
+        );
 
         const html = filteredSuggestions
             .map(
                 (suggestion) => `
-              <div class="suggestion-item">
-                  <i class="fa-solid fa-magnifying-glass"></i>
-                  <span>${highlightMatch(suggestion, state.searchTerm)}</span>
-              </div>
-          `
+                <div class="suggestion-item">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <span>${highlightMatch(suggestion, state.searchTerm)}</span>
+                </div>
+            `
             )
-            .join("")
+            .join("");
 
-        elements.suggestionsContainer.innerHTML = html
+        elements.suggestionsContainer.innerHTML = html;
 
         // Show/hide suggestions based on whether there are any
         if (filteredSuggestions.length > 0) {
-            elements.suggestionsContainer.style.display = "block"
+            elements.suggestionsContainer.style.display = "block";
         } else if (state.hasSearched && state.searchTerm) {
-            elements.suggestionsContainer.style.display = "none"
+            elements.suggestionsContainer.style.display = "none";
         }
     }
 
     function highlightMatch(text, query) {
-        if (!query) return text
-        const regex = new RegExp(`(${query})`, "gi")
-        return text.replace(regex, "<strong>$1</strong>")
+        if (!query) return text;
+        const regex = new RegExp(`(${query})`, "gi");
+        return text.replace(regex, "<strong>$1</strong>");
     }
 
     function checkAndDisplayNoResults() {
         // Remove existing no results container if it's in the DOM
         if (elements.noResultsContainer.parentNode) {
-            elements.noResultsContainer.parentNode.removeChild(elements.noResultsContainer)
+            elements.noResultsContainer.parentNode.removeChild(elements.noResultsContainer);
         }
 
         // Show no results message if we've searched and have no products or suggestions
         if (state.hasSearched && state.searchTerm && state.products.length === 0) {
             const suggestionsVisible =
-                elements.suggestionsContainer.style.display !== "none" && elements.suggestionsContainer.innerHTML.trim() !== ""
+                elements.suggestionsContainer.style.display !== "none" &&
+                elements.suggestionsContainer.innerHTML.trim() !== "";
 
             if (!suggestionsVisible) {
-                elements.dropdown.appendChild(elements.noResultsContainer)
+                elements.dropdown.appendChild(elements.noResultsContainer);
             }
         }
     }
@@ -205,37 +212,37 @@ const searchDropdown = (() => {
                 image:
                     "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-02-21%20at%2019.48.30_3a6f580c.jpg-05g4OrxzimbgmfRxqiksFQCrJ6aQuS.jpeg",
             },
-        ]
+        ];
     }
 
     async function searchProducts() {
         try {
             // Set loading state
-            state.isLoading = true
-            updateLoadingState(true)
+            state.isLoading = true;
+            updateLoadingState(true);
 
             // Simulate API call with timeout
             setTimeout(() => {
                 // Always populate with products for testing/demo purposes
                 // In production, you would filter based on the search term
-                const products = getDefaultProducts()
+                const products = getDefaultProducts();
 
                 // Update state
-                state.products = products
-                updateProductResults(products)
+                state.products = products;
+                updateProductResults(products);
 
                 // End loading state
-                state.isLoading = false
-                updateLoadingState(false)
+                state.isLoading = false;
+                updateLoadingState(false);
 
                 // Check for no results
-                checkAndDisplayNoResults()
-            }, 300)
+                checkAndDisplayNoResults();
+            }, 300);
         } catch (error) {
-            console.error("Error fetching products:", error)
-            state.isLoading = false
-            updateLoadingState(false)
-            checkAndDisplayNoResults()
+            console.error("Error fetching products:", error);
+            state.isLoading = false;
+            updateLoadingState(false);
+            checkAndDisplayNoResults();
         }
     }
 
@@ -243,202 +250,202 @@ const searchDropdown = (() => {
         if (isLoading) {
             // Add loading indicator
             const loadingHtml = `
-                  <div class="loading-indicator">
-                      <div class="spinner"></div>
-                      <p>Zoeken...</p>
-                  </div>
-              `
-            elements.productsContainer.innerHTML = loadingHtml
+                <div class="loading-indicator">
+                    <div class="spinner"></div>
+                    <p>Zoeken...</p>
+                </div>
+            `;
+            elements.productsContainer.innerHTML = loadingHtml;
 
             // Hide no results while loading
             if (elements.noResultsContainer.parentNode) {
-                elements.noResultsContainer.parentNode.removeChild(elements.noResultsContainer)
+                elements.noResultsContainer.parentNode.removeChild(elements.noResultsContainer);
             }
         }
     }
 
     function updateProductResults(products) {
         if (products.length === 0) {
-            elements.productsContainer.innerHTML = ""
+            elements.productsContainer.innerHTML = "";
             if (elements.resultsCountElement) {
-                elements.resultsCountElement.style.display = "none"
+                elements.resultsCountElement.style.display = "none";
             }
-            return
+            return;
         }
 
         const html = products
             .map(
                 (product) => `
-              <div class="product-card">
-                  <img src="${product.image}" alt="${product.name}">
-                  <div class="product-info">
-                      <h3>${highlightMatch(product.name, state.searchTerm)}</h3>
-                      <div class="price-delivery">
-                          <div class="price">
-                              <span class="original">€ ${product.originalPrice.toFixed(2).replace(".", ",")}</span>
-                              <span class="discounted">€ ${product.discountedPrice.toFixed(2).replace(".", ",")}</span>
-                          </div>
-                          <div class="delivery-info">
-                              <i class="fa-solid fa-check"></i>
-                              <span>Direct leverbaar +/- 2 werkdagen</span>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          `
+                <div class="product-card">
+                    <img src="${product.image}" alt="${product.name}">
+                    <div class="product-info">
+                        <h3>${highlightMatch(product.name, state.searchTerm)}</h3>
+                        <div class="price-delivery">
+                            <div class="price">
+                                <span class="original">€ ${product.originalPrice.toFixed(2).replace(".", ",")}</span>
+                                <span class="discounted">€ ${product.discountedPrice.toFixed(2).replace(".", ",")}</span>
+                            </div>
+                            <div class="delivery-info">
+                                <i class="fa-solid fa-check"></i>
+                                <span>Direct leverbaar +/- 2 werkdagen</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `
             )
-            .join("")
+            .join("");
 
-        elements.productsContainer.innerHTML = html
+        elements.productsContainer.innerHTML = html;
 
         // Show results count if we have products
         if (elements.resultsCountElement) {
-            elements.resultsCountElement.style.display = "flex"
+            elements.resultsCountElement.style.display = "flex";
         }
     }
 
     function openDropdown() {
-        state.isOpen = true
-        elements.dropdown.classList.add("active")
+        state.isOpen = true;
+        elements.dropdown.classList.add("active");
 
         // Always show all suggestions when opening the dropdown
-        updateSuggestions()
+        updateSuggestions();
 
         // Always show default products when opening the dropdown
-        const defaultProducts = getDefaultProducts()
-        state.products = defaultProducts
-        updateProductResults(defaultProducts)
+        const defaultProducts = getDefaultProducts();
+        state.products = defaultProducts;
+        updateProductResults(defaultProducts);
 
         if (state.isMobile) {
-            document.body.classList.add("modal-open")
-            elements.searchContainer.classList.add("mobile-active")
+            document.body.classList.add("modal-open");
+            elements.searchContainer.classList.add("mobile-active");
 
             if (elements.mobileHeader) {
-                elements.mobileHeader.style.display = "flex"
+                elements.mobileHeader.style.display = "flex";
 
                 // Ensure mobile input has the same value
-                const mobileInput = elements.mobileHeader.querySelector("input")
+                const mobileInput = elements.mobileHeader.querySelector("input");
                 if (mobileInput) {
-                    mobileInput.value = state.searchTerm
-                    mobileInput.focus()
+                    mobileInput.value = state.searchTerm;
+                    mobileInput.focus();
                 }
 
-                toggleClearButton()
+                toggleClearButton();
             }
         } else {
             if (elements.overlay) {
-                elements.overlay.classList.add("active")
+                elements.overlay.classList.add("active");
             }
         }
     }
 
     function closeDropdown() {
-        state.isOpen = false
-        elements.dropdown.classList.remove("active")
+        state.isOpen = false;
+        elements.dropdown.classList.remove("active");
 
         if (state.isMobile) {
-            document.body.classList.remove("modal-open")
-            elements.searchContainer.classList.remove("mobile-active")
+            document.body.classList.remove("modal-open");
+            elements.searchContainer.classList.remove("mobile-active");
             if (elements.mobileHeader) {
-                elements.mobileHeader.style.display = "none"
+                elements.mobileHeader.style.display = "none";
             }
         } else {
             if (elements.overlay) {
-                elements.overlay.classList.remove("active")
+                elements.overlay.classList.remove("active");
             }
         }
     }
 
     function handleResize() {
-        const wasMobile = state.isMobile
-        state.isMobile = window.innerWidth <= 768
+        const wasMobile = state.isMobile;
+        state.isMobile = window.innerWidth <= 768;
 
-        // Only reapply if the device type changed
-        if (wasMobile !== state.isMobile && state.isOpen) {
-            closeDropdown()
-            openDropdown()
+        // Close dropdown if screen size exceeds 768px
+        if (wasMobile && !state.isMobile && state.isOpen) {
+            closeDropdown();
         }
     }
 
     function init() {
         // Create mobile header if it doesn't exist
         if (!elements.mobileHeader) {
-            const mobileHeader = document.createElement("div")
-            mobileHeader.className = "mobile-search-header"
+            const mobileHeader = document.createElement("div");
+            mobileHeader.className = "mobile-search-header";
             mobileHeader.innerHTML = `
-                  <button class="back-button">
-                      <i class="fa-solid fa-arrow-left"></i>
-                  </button>
-                  <div class="mobile-search-input-container">
-                      <input type="text" placeholder="Zoekterm, EAN of artikelnummer...">
-                      <button class="search-button">
-                    <i class="fa-solid fa-magnifying-glass"></i>
+                <button class="back-button">
+                    <i class="fa-solid fa-arrow-left"></i>
                 </button>
-                      <button class="clear-button" style="display: none; padding-left:4px;">
-                          <i class="fa-solid fa-times"></i>
-                      </button>
-                  </div>
-                  
-              `
+                <div class="mobile-search-input-container">
+                    <input type="text" placeholder="Zoekterm, EAN of artikelnummer...">
+                    <button class="search-button">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                    <button class="clear-button" style="display: none; padding-left:4px;">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                </div>
+            `;
 
-            document.body.insertBefore(mobileHeader, document.body.firstChild)
-            elements.mobileHeader = mobileHeader
-            elements.backButton = mobileHeader.querySelector(".back-button")
-            elements.clearButton = mobileHeader.querySelector(".clear-button")
+            document.body.insertBefore(mobileHeader, document.body.firstChild);
+            elements.mobileHeader = mobileHeader;
+            elements.backButton = mobileHeader.querySelector(".back-button");
+            elements.clearButton = mobileHeader.querySelector(".clear-button");
 
             // Sync the mobile input with the desktop input
-            const mobileInput = mobileHeader.querySelector("input")
+            const mobileInput = mobileHeader.querySelector("input");
             mobileInput.addEventListener("input", (e) => {
-                elements.searchInput.value = e.target.value
-                handleSearchInput(e)
-            })
+                elements.searchInput.value = e.target.value;
+                handleSearchInput(e);
+            });
 
             // Add event listeners for mobile header
-            elements.backButton.addEventListener("click", closeDropdown)
-            elements.clearButton.addEventListener("click", clearSearch)
+            elements.backButton.addEventListener("click", closeDropdown);
+            elements.clearButton.addEventListener("click", clearSearch);
         }
 
         // Add event listeners
-        elements.searchInput.addEventListener("focus", handleSearchFocus)
-        elements.searchInput.addEventListener("input", handleSearchInput)
-        elements.searchButton.addEventListener("click", handleSearchFocus)
-        document.addEventListener("click", handleDocumentClick)
-        document.addEventListener("keydown", handleKeydown)
-        window.addEventListener("resize", handleResize)
+        elements.searchInput.addEventListener("focus", handleSearchFocus);
+        elements.searchInput.addEventListener("input", handleSearchInput);
+        elements.searchButton.addEventListener("click", handleSearchFocus);
+        document.addEventListener("click", handleDocumentClick);
+        document.addEventListener("keydown", handleKeydown);
+        window.addEventListener("resize", handleResize);
 
         // Handle suggestion clicks
         elements.suggestionsContainer.addEventListener("click", (e) => {
-            const item = e.target.closest(".suggestion-item")
+            const item = e.target.closest(".suggestion-item");
             if (item) {
-                const text = item.querySelector("span").textContent
-                elements.searchInput.value = text
+                const text = item.querySelector("span").textContent;
+                elements.searchInput.value = text;
                 if (state.isMobile && elements.mobileHeader) {
-                    elements.mobileHeader.querySelector("input").value = text
+                    elements.mobileHeader.querySelector("input").value = text;
                 }
-                state.searchTerm = text
-                state.hasSearched = true
-                toggleClearButton()
-                searchProducts()
+                state.searchTerm = text;
+                state.hasSearched = true;
+                toggleClearButton();
+                searchProducts();
+                closeDropdown(); // Close the dropdown after selecting a suggestion
             }
-        })
+        });
 
         // Handle product clicks
         elements.productsContainer.addEventListener("click", (e) => {
-            const card = e.target.closest(".product-card")
+            const card = e.target.closest(".product-card");
             if (card) {
                 // Navigate to product page or perform desired action
-                console.log("Product clicked:", card.querySelector("h3").textContent)
+                console.log("Product clicked:", card.querySelector("h3").textContent);
+                closeDropdown(); // Close the dropdown after selecting a product
             }
-        })
+        });
 
         // Initialize elements reference
-        elements.resultsCountElement = document.querySelector(".results-count")
+        elements.resultsCountElement = document.querySelector(".results-count");
     }
 
-    return { init }
-})()
+    return { init };
+})();
 
 // Initialize the search dropdown
 document.addEventListener("DOMContentLoaded", () => {
-    searchDropdown.init()
-})
+    searchDropdown.init();
+});

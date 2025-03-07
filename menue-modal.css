@@ -41,7 +41,8 @@
 }
 
 .mega-menu-container {
-    max-width: 1200px;
+    /* max-width: 1200px; */
+    max-width: 81vw;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -88,7 +89,7 @@
 .category-content h3 {
     font-size: 14px;
     font-weight: 600;
-    margin-bottom: 8px;
+    /* margin-bottom: 8px; */
     color: #333;
 }
 

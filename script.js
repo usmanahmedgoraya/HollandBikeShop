@@ -173,28 +173,30 @@ const localeModal = (() => {
     function openModal() {
         isModalOpen = true;
         elements.modal.classList.add('active');
-        elements.overlay.classList.add('active');
+        console.log(elements.overlay,'overlay');
+        
+        elements.overlay.style.display = "block";
         document.body.style.overflow = 'hidden';
     }
 
     function closeModal() {
         isModalOpen = false;
         elements.modal.classList.remove('active');
-        elements.overlay.classList.remove('active');
+        elements.overlay.style.display = "none";
         document.body.style.overflow = '';
     }
 
     function openSidebar() {
         isSidebarOpen = true;
         elements.mobileSidebar.classList.add('active');
-        elements.overlay.classList.add('active');
+        // elements.overlay.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
 
     function closeSidebar() {
         isSidebarOpen = false;
         elements.mobileSidebar.classList.remove('active');
-        elements.overlay.classList.remove('active');
+        // elements.overlay.classList.remove('active');
         document.body.style.overflow = '';
     }
 

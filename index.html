@@ -72,12 +72,12 @@
                     <div class="search-suggestions">
                         <!-- Suggestions will be populated by JavaScript -->
                     </div>
-    
+
                     <!-- Product Results -->
                     <div class="product-results">
                         <!-- Products will be populated by JavaScript -->
                     </div>
-    
+
                     <div class="results-count">
                         <a href="#">2562 Resultaten <i class="fa-solid fa-chevron-right"></i></a>
                     </div>
@@ -276,10 +276,10 @@
         <div class="nav-container">
             <ul class="primary-nav">
                 <li>
-                    <div class="nav-link">Fietsonderdelen</div>
+                    <div class="nav-link" data-menu="fietsonderdelen">Fietsonderdelen</div>
                 </li>
                 <li class="active-link-style active">
-                    <div class="nav-link active">Fietsaccessoires</div>
+                    <div class="nav-link "  data-menu="fietsaccessoires">Fietsaccessoires</div>
                 </li>
                 <li>
                     <div class="nav-link">Fietskleding</div>
@@ -574,8 +574,10 @@
         </div>
     </div>
 
-    <!-- Language Modal -->
+    <!-- Overlay -->
     <div class="modal-overlay" id="modalOverlay"></div>
+
+    <!-- Language,Currency And Countries Modal -->
     <div class="language-modal" id="languageModal">
         <div class="close-modal" id="closeModal">×</div>
         <div class="tabs-container">
@@ -625,8 +627,13 @@
                     </button>
                 </div>
 
-                <div id="countryListContainer">
-                    <!-- Country list will be dynamically generated here -->
+                <div class="relative">
+                    <div class="europa-image">
+                        <img src="./images/euroupe-map.png" alt="euroupe-map" width="100%">
+                    </div>
+                    <div id="countryListContainer">
+                        <!-- Country list will be dynamically generated here -->
+                    </div>
                 </div>
             </div>
 
@@ -881,37 +888,41 @@
         <div class="footer-bottom">
             <div class="payments">
                 <div class="payment-method">
-                    <img src="./images/mastercard.png" alt="mastercard" width="100%">
+                    <img src="./images/SVG/international-bank-account-number-iban-logo-BD7E53E238-seeklogo.com.png"
+                        alt="mastercard" width="100%">
                 </div>
                 <div class="payment-method">
-                    <img src="./images/mastercard.png" alt="visa" width="100%">
+                    <img src="./images/SVG/maestro.png" alt="visa" width="100%">
                 </div>
                 <div class="payment-method">
-                    <img src="./images/mastercard.png" alt="paypal" width="100%">
+                    <img src="./images/SVG/mastercard.png" alt="paypal" width="100%">
                 </div>
                 <div class="payment-method">
-                    <img src="./images/mastercard.png" alt="ideal" width="100%">
+                    <img src="./images/SVG/ideal.webp" alt="ideal" width="100%">
                 </div>
                 <div class="payment-method">
-                    <img src="./images/mastercard.png" alt="klarna" width="100%">
+                    <img src="./images/SVG/postnl.png" alt="klarna" width="100%">
                 </div>
                 <div class="payment-method">
-                    <img src="./images/mastercard.png" alt="bancontact" width="100%">
+                    <img src="./images/SVG/bancontact.png" alt="bancontact" width="100%">
                 </div>
                 <div class="payment-method">
-                    <img src="./images/mastercard.png" alt="amex" width="100%">
+                    <img src="./images/SVG/CarteBleueLogo.svg.png" alt="amex" width="100%">
                 </div>
                 <div class="payment-method">
-                    <img src="./images/mastercard.png" alt="dhl" width="100%">
+                    <img src="./images/SVG/DHL-Logo.wine.png" alt="dhl" width="100%">
                 </div>
                 <div class="payment-method">
-                    <img src="./images/mastercard.png" alt="sofort" width="100%">
+                    <img src="./images/SVG/paypal-transparent-paypal-free-free-png.png" alt="sofort" width="100%">
                 </div>
                 <div class="payment-method">
-                    <img src="./images/mastercard.png" alt="giropay" width="100%">
+                    <img src="./images/SVG/klarna.png" alt="giropay" width="100%">
                 </div>
                 <div class="payment-method">
-                    <img src="./images/mastercard.png" alt="cartebleue" width="100%">
+                    <img src="./images/SVG/visa-logo-png-transparent.png" alt="cartebleue" width="100%">
+                </div>
+                <div class="payment-method">
+                    <img src="./images/SVG/sofort-logo-vector-png-sofort-logo-512.png" alt="cartebleue" width="100%">
                 </div>
             </div>
             <div class="footer-container">

@@ -1,6 +1,7 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const countryListContainer = document.getElementById("countryListContainer");
     const searchCountryInput = document.getElementById("searchCountry");
+    const europaImage = document.querySelector(".europa-image"); // Select the image element
     const restCountriesApiUrl = "https://restcountries.com/v3.1/all";
 
     let allCountries = []; 
@@ -9,8 +10,11 @@ document.addEventListener("DOMContentLoaded", function() {
         try {
             const response = await fetch(restCountriesApiUrl);
             const data = await response.json();
-            allCountries = data; // Store all countries
-            const countriesByContinent = groupCountriesByContinent(data);
+
+            // **Filter for European countries only**
+            allCountries = data.filter(country => country.region === "Europe");
+
+            const countriesByContinent = groupCountriesByContinent(allCountries);
             generateCountryList(countriesByContinent);
         } catch (error) {
             console.error("Error fetching countries:", error);
@@ -21,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function groupCountriesByContinent(countries) {
         const groupedCountries = {};
         countries.forEach(country => {
-            const continent = country.region || "Unknown Continent"; // Use region as continent
+            const continent = country.region || "Unknown Continent"; // Europe in this case
 
             if (!groupedCountries[continent]) {
                 groupedCountries[continent] = [];
@@ -34,9 +38,15 @@ document.addEventListener("DOMContentLoaded", function() {
     function generateCountryList(countriesData) {
         countryListContainer.innerHTML = ""; // Clear previous list
 
+        let hasCountries = false; // Track if any countries are displayed
+
         for (const continent in countriesData) {
             if (countriesData.hasOwnProperty(continent)) {
                 const countries = countriesData[continent];
+
+                if (countries.length > 0) {
+                    hasCountries = true; // At least one country exists
+                }
 
                 // Create continent group
                 const countryGroup = document.createElement("div");
@@ -44,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 // Add continent heading
                 const continentHeading = document.createElement("h3");
-                continentHeading.textContent = continent;
+                continentHeading.textContent = continent; // Should only be "Europe"
                 countryGroup.appendChild(continentHeading);
 
                 // Create options grid
@@ -73,6 +83,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 countryListContainer.appendChild(countryGroup);
             }
         }
+
+        // **Toggle europa-image-hidden class based on country list availability**
+        if (hasCountries) {
+            europaImage.classList.remove("europa-image-hidden");
+        } else {
+            europaImage.classList.add("europa-image-hidden");
+        }
     }
 
     function filterCountries(searchTerm) {
@@ -83,14 +100,14 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Search functionality
-    searchCountryInput.addEventListener("input", function() {
+    searchCountryInput.addEventListener("input", function () {
         const searchTerm = this.value.trim();
         const filteredCountries = filterCountries(searchTerm);
         generateCountryList(filteredCountries);
     });
 
     // Event delegation for country button clicks
-    countryListContainer.addEventListener("click", function(event) {
+    countryListContainer.addEventListener("click", function (event) {
         if (event.target.classList.contains("option-btn")) {
             const countryCode = event.target.dataset.country;
             console.log("Selected country:", countryCode);

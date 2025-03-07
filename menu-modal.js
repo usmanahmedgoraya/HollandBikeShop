@@ -12,55 +12,50 @@ const megaMenu = (() => {
         listNav: document.querySelector('.active-link-style')
     };
 
-    function handleNavHover(e) {
-        const navItem = e.target.closest('.nav-link');
-        if (!navItem) return;
-
-        // Remove active class from previous nav link
-        if (state.activeNavLink) {
-            state.activeNavLink.classList.remove('nav-link-active');
-        }
-
-        // Add active class to current nav link
-        navItem.classList.add('nav-link-active');
-        state.activeNavLink = navItem;
-
-        const menuId = navItem.dataset.menu;
-        if (menuId === state.activeMenu) return;
-
-        state.activeMenu = menuId;
-        openMenu();
-    }
-
     function handleNavClick(e) {
         const navItem = e.target.closest('.nav-link');
         if (!navItem) return;
 
         e.preventDefault();
-        
+
         const menuId = navItem.dataset.menu;
-        if (menuId === state.activeMenu && state.isOpen) {
-            closeMenu();
-            navItem.classList.remove('nav-link-active');
-            state.activeNavLink = null;
+
+        // Only open the modal for the specific menu (e.g., "Fietsaccessoires")
+        if (menuId === "fietsaccessoires") {
+            if (menuId === state.activeMenu && state.isOpen) {
+                closeMenu();
+                navItem.classList.remove('active');
+                navItem.classList.remove('nav-link-active');
+                state.activeNavLink = null;
+            } else {
+                // Remove active class from previous nav link
+                if (state.activeNavLink) {
+                    state.activeNavLink.classList.remove('active');
+                    state.activeNavLink.classList.remove('nav-link-active');
+                }
+
+                // Add active class to current nav link
+                navItem.classList.add('nav-link-active');
+                navItem.classList.add('active');
+                state.activeNavLink = navItem;
+
+                state.activeMenu = menuId;
+                openMenu();
+            }
         } else {
-            // Remove active class from previous nav link
+            // Close the modal if another nav link is clicked
+            closeMenu();
             if (state.activeNavLink) {
                 state.activeNavLink.classList.remove('nav-link-active');
+                state.activeNavLink.classList.remove('active');
+                state.activeNavLink = null;
             }
-
-            // Add active class to current nav link
-            navItem.classList.add('nav-link-active');
-            state.activeNavLink = navItem;
-            
-            state.activeMenu = menuId;
-            openMenu();
         }
     }
 
     function handleMouseLeave() {
         setTimeout(() => {
-            if (!document.querySelector('.nav-link:hover') && 
+            if (!document.querySelector('.nav-link:hover') &&
                 !elements.megaMenu.matches(':hover')) {
                 closeMenu();
                 // Remove active class when mouse leaves
@@ -73,11 +68,12 @@ const megaMenu = (() => {
     }
 
     function handleDocumentClick(e) {
-        if (!e.target.closest('.nav-link') && 
+        if (!e.target.closest('.nav-link') &&
             !e.target.closest('.mega-menu')) {
             closeMenu();
             // Remove active class when clicking outside
             if (state.activeNavLink) {
+                state.activeNavLink.classList.remove('active');
                 state.activeNavLink.classList.remove('nav-link-active');
                 state.activeNavLink = null;
             }
@@ -101,20 +97,18 @@ const megaMenu = (() => {
 
     function init() {
         elements.navLinks.forEach(link => {
-            if (window.innerWidth > 768) {
-                link.addEventListener('mouseenter', handleNavHover);
-            }
             link.addEventListener('click', handleNavClick);
         });
 
-        elements.megaMenu.addEventListener('mouseleave', handleMouseLeave);
-        elements.header.addEventListener('mouseleave', handleMouseLeave);
+        // elements.megaMenu.addEventListener('mouseleave', handleMouseLeave);
+        // elements.header.addEventListener('mouseleave', handleMouseLeave);
         document.addEventListener('click', handleDocumentClick);
 
         window.addEventListener('resize', () => {
             if (window.innerWidth <= 768) {
                 closeMenu();
                 if (state.activeNavLink) {
+                    state.activeNavLink.classList.remove('active');
                     state.activeNavLink.classList.remove('nav-link-active');
                     state.activeNavLink = null;
                 }
