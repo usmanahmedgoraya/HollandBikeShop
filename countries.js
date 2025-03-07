@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     const countryListContainer = document.getElementById("countryListContainer");
     const searchCountryInput = document.getElementById("searchCountry");
-    const europaImage = document.querySelector(".europa-image"); // Select the image element
     const restCountriesApiUrl = "https://restcountries.com/v3.1/all";
 
     let allCountries = []; 
@@ -38,15 +37,9 @@ document.addEventListener("DOMContentLoaded", function () {
     function generateCountryList(countriesData) {
         countryListContainer.innerHTML = ""; // Clear previous list
 
-        let hasCountries = false; // Track if any countries are displayed
-
         for (const continent in countriesData) {
             if (countriesData.hasOwnProperty(continent)) {
                 const countries = countriesData[continent];
-
-                if (countries.length > 0) {
-                    hasCountries = true; // At least one country exists
-                }
 
                 // Create continent group
                 const countryGroup = document.createElement("div");
@@ -82,13 +75,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 countryGroup.appendChild(optionsGrid);
                 countryListContainer.appendChild(countryGroup);
             }
-        }
-
-        // **Toggle europa-image-hidden class based on country list availability**
-        if (hasCountries) {
-            europaImage.classList.remove("europa-image-hidden");
-        } else {
-            europaImage.classList.add("europa-image-hidden");
         }
     }
 

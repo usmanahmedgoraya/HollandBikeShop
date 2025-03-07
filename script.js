@@ -29,7 +29,7 @@ const localeModal = (() => {
             return;
         }
 
-        if(target.closest('#searchCountry')){
+        if (target.closest('#searchCountry')) {
             return;
         }
 
@@ -154,17 +154,13 @@ const localeModal = (() => {
         document.querySelectorAll('.value-text').forEach(selector => {
             if (selector.dataset.type === 'language') {
                 selector.querySelector('.fi').className = `fi fi-${state.selectedLanguage.code} icon-size`;
-                
                 selector.querySelector('span:last-child').textContent = state?.selectedLanguage?.text;
-                
             } else if (selector.dataset.type === 'country') {
                 selector.querySelector('.fi').className = `fi fi-${state.selectedCountry.code} icon-size`;
-                selector.querySelector('span:last-child').textContent = 
-                    `${state.selectedCountry.text}`;
-            }else if(selector.dataset.type === 'currency'){
+                selector.querySelector('span:last-child').textContent = `${state.selectedCountry.text}`;
+            } else if (selector.dataset.type === 'currency') {
                 selector.querySelector('.fi').className = `fi fi-${state.selectedCurrency.code} icon-size`;
-                selector.querySelector('span:last-child').textContent = 
-                    ` ${state.selectedCurrency.symbol} ${state.selectedCurrency.text}`;
+                selector.querySelector('span:last-child').textContent = ` ${state.selectedCurrency.symbol} ${state.selectedCurrency.text}`;
             }
         });
     }
@@ -173,10 +169,15 @@ const localeModal = (() => {
     function openModal() {
         isModalOpen = true;
         elements.modal.classList.add('active');
-        console.log(elements.overlay,'overlay');
-        
         elements.overlay.style.display = "block";
         document.body.style.overflow = 'hidden';
+
+        // Set z-index for mobile
+        if (window.innerWidth <= 768) {
+            elements.overlay.style.zIndex = '100000';
+        }else{
+            elements.overlay.style.zIndex = '1000';
+        }
     }
 
     function closeModal() {
@@ -184,20 +185,31 @@ const localeModal = (() => {
         elements.modal.classList.remove('active');
         elements.overlay.style.display = "none";
         document.body.style.overflow = '';
+
+        // Reset z-index for mobile
+        if (window.innerWidth <= 768 && isSidebarOpen) {
+            elements.overlay.style.display = "block";
+            elements.overlay.style.zIndex = '1000';
+        }
     }
 
     function openSidebar() {
         isSidebarOpen = true;
         elements.mobileSidebar.classList.add('active');
-        // elements.overlay.classList.add('active');
+        elements.overlay.style.display="block";
         document.body.style.overflow = 'hidden';
     }
 
     function closeSidebar() {
         isSidebarOpen = false;
         elements.mobileSidebar.classList.remove('active');
-        // elements.overlay.classList.remove('active');
+        elements.overlay.style.display="none";
         document.body.style.overflow = '';
+
+        // Reset z-index for mobile
+        // if (window.innerWidth <= 768) {
+        //     elements.overlay.style.zIndex = '1000';
+        // }
     }
 
     // Helpers
@@ -215,7 +227,7 @@ const localeModal = (() => {
         document.body.addEventListener('click', handleClick);
         document.addEventListener('keydown', handleKeyDown);
         window.addEventListener('resize', handleResize);
-        
+
         // Initial UI setup
         updateDisplay();
     }

@@ -1,7 +1,6 @@
 const searchDropdown = (() => {
-    const state = {
-        isOpen: false,
-        searchTerm: "",
+    // Separate data for better management
+    const data = {
         suggestions: [
             "Buitenband",
             "Buitenband 28 inch",
@@ -11,7 +10,41 @@ const searchDropdown = (() => {
             "Buitenband continental",
             "Buitenband reparatie",
         ],
-        products: [], // Will store fetched products
+        products: [
+            {
+                name: "Schwalbe Buitenband 28x1.40 Marathon Plus SmartGuard Refl.",
+                originalPrice: 43.9,
+                discountedPrice: 34.95,
+                image:
+                    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-02-21%20at%2019.48.30_3a6f580c.jpg-05g4OrxzimbgmfRxqiksFQCrJ6aQuS.jpeg",
+            },
+            {
+                name: 'Rexway Shopper Fietsband 28 x 1 5/8" x 1 3/8" - Bruin',
+                originalPrice: 24.95,
+                discountedPrice: 18.95,
+                image:
+                    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-02-21%20at%2019.48.30_3a6f580c.jpg-05g4OrxzimbgmfRxqiksFQCrJ6aQuS.jpeg",
+            },
+            {
+                name: 'Continental Ride Tour Buitenband 28 x 1 5/8x3/8" Reflex-Zwart',
+                originalPrice: 25.99,
+                discountedPrice: 19.95,
+                image:
+                    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-02-21%20at%2019.48.30_3a6f580c.jpg-05g4OrxzimbgmfRxqiksFQCrJ6aQuS.jpeg",
+            },
+            {
+                name: "CST Buitenband Sensamo Allround 28 x 1 5/8 x 1 3/8 Reflex",
+                originalPrice: 25.95,
+                discountedPrice: 17.95,
+                image:
+                    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-02-21%20at%2019.48.30_3a6f580c.jpg-05g4OrxzimbgmfRxqiksFQCrJ6aQuS.jpeg",
+            },
+        ],
+    };
+
+    const state = {
+        isOpen: false,
+        searchTerm: "",
         isMobile: window.innerWidth <= 768,
         isLoading: false,
         hasSearched: false,
@@ -56,7 +89,7 @@ const searchDropdown = (() => {
             searchProducts();
         } else {
             // If search term is too short, still show default products
-            updateProductResults(getDefaultProducts());
+            updateProductResults(data.products);
             checkAndDisplayNoResults();
         }
     }
@@ -81,7 +114,7 @@ const searchDropdown = (() => {
         updateSuggestions();
 
         // Show default products when search is cleared
-        updateProductResults(getDefaultProducts());
+        updateProductResults(data.products);
 
         elements.searchInput.focus();
 
@@ -116,7 +149,7 @@ const searchDropdown = (() => {
     function updateSuggestions() {
         // If no search term, show all suggestions
         if (!state.searchTerm) {
-            const allSuggestionsHtml = state.suggestions
+            const allSuggestionsHtml = data.suggestions
                 .map(
                     (suggestion) => `
                 <div class="suggestion-item">
@@ -133,7 +166,7 @@ const searchDropdown = (() => {
         }
 
         // Otherwise, filter suggestions based on search term
-        const filteredSuggestions = state.suggestions.filter((suggestion) =>
+        const filteredSuggestions = data.suggestions.filter((suggestion) =>
             suggestion.toLowerCase().includes(state.searchTerm.toLowerCase())
         );
 
@@ -182,39 +215,6 @@ const searchDropdown = (() => {
         }
     }
 
-    function getDefaultProducts() {
-        return [
-            {
-                name: "Schwalbe Buitenband 28x1.40 Marathon Plus SmartGuard Refl.",
-                originalPrice: 43.9,
-                discountedPrice: 34.95,
-                image:
-                    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-02-21%20at%2019.48.30_3a6f580c.jpg-05g4OrxzimbgmfRxqiksFQCrJ6aQuS.jpeg",
-            },
-            {
-                name: 'Rexway Shopper Fietsband 28 x 1 5/8" x 1 3/8" - Bruin',
-                originalPrice: 24.95,
-                discountedPrice: 18.95,
-                image:
-                    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-02-21%20at%2019.48.30_3a6f580c.jpg-05g4OrxzimbgmfRxqiksFQCrJ6aQuS.jpeg",
-            },
-            {
-                name: 'Continental Ride Tour Buitenband 28 x 1 5/8x3/8" Reflex-Zwart',
-                originalPrice: 25.99,
-                discountedPrice: 19.95,
-                image:
-                    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-02-21%20at%2019.48.30_3a6f580c.jpg-05g4OrxzimbgmfRxqiksFQCrJ6aQuS.jpeg",
-            },
-            {
-                name: "CST Buitenband Sensamo Allround 28 x 1 5/8 x 1 3/8 Reflex",
-                originalPrice: 25.95,
-                discountedPrice: 17.95,
-                image:
-                    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-02-21%20at%2019.48.30_3a6f580c.jpg-05g4OrxzimbgmfRxqiksFQCrJ6aQuS.jpeg",
-            },
-        ];
-    }
-
     async function searchProducts() {
         try {
             // Set loading state
@@ -223,9 +223,7 @@ const searchDropdown = (() => {
 
             // Simulate API call with timeout
             setTimeout(() => {
-                // Always populate with products for testing/demo purposes
-                // In production, you would filter based on the search term
-                const products = getDefaultProducts();
+                const products = data.products;
 
                 // Update state
                 state.products = products;
@@ -312,11 +310,10 @@ const searchDropdown = (() => {
         updateSuggestions();
 
         // Always show default products when opening the dropdown
-        const defaultProducts = getDefaultProducts();
-        state.products = defaultProducts;
-        updateProductResults(defaultProducts);
+        state.products = data.products;
+        updateProductResults(data.products);
 
-        if (state.isMobile) {
+        if (state.isMobile && state.isOpen) {
             document.body.classList.add("modal-open");
             elements.searchContainer.classList.add("mobile-active");
 
@@ -349,7 +346,12 @@ const searchDropdown = (() => {
             if (elements.mobileHeader) {
                 elements.mobileHeader.style.display = "none";
             }
+            if (elements.overlay) {
+                elements.overlay.classList.remove("active");
+            }
         } else {
+            document.body.classList.remove("modal-open");
+            elements.searchContainer.classList.remove("mobile-active");
             if (elements.overlay) {
                 elements.overlay.classList.remove("active");
             }
@@ -361,8 +363,18 @@ const searchDropdown = (() => {
         state.isMobile = window.innerWidth <= 768;
 
         // Close dropdown if screen size exceeds 768px
-        if (wasMobile && !state.isMobile && state.isOpen) {
+        if (wasMobile && !state.isMobile && state.isOpen) { 
             closeDropdown();
+        }
+
+        // Ensure mobile header is hidden on desktop and shown on mobile
+        if (state.isMobile && state.isOpen) {
+            closeDropdown();
+        } else {
+           
+            if (elements.mobileHeader) {
+                elements.mobileHeader.style.display = "none";
+            }
         }
     }
 
@@ -404,7 +416,8 @@ const searchDropdown = (() => {
         }
 
         // Add event listeners
-        elements.searchInput.addEventListener("focus", handleSearchFocus);
+        // elements.searchInput.addEventListener("focus", handleSearchFocus);
+        elements.searchInput.addEventListener("click", handleSearchFocus);
         elements.searchInput.addEventListener("input", handleSearchInput);
         elements.searchButton.addEventListener("click", handleSearchFocus);
         document.addEventListener("click", handleDocumentClick);
@@ -424,7 +437,7 @@ const searchDropdown = (() => {
                 state.hasSearched = true;
                 toggleClearButton();
                 searchProducts();
-                closeDropdown(); // Close the dropdown after selecting a suggestion
+                closeDropdown(); 
             }
         });
 
@@ -434,7 +447,7 @@ const searchDropdown = (() => {
             if (card) {
                 // Navigate to product page or perform desired action
                 console.log("Product clicked:", card.querySelector("h3").textContent);
-                closeDropdown(); // Close the dropdown after selecting a product
+                closeDropdown();
             }
         });
 

@@ -88,12 +88,14 @@ body {
 
 .search-bar input {
     width: 100%;
-    padding: 10px 15px;
+    padding: 15px 15px;
     border: none;
     border-radius: 25px;
     outline: none;
     font-size: 14px;
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    z-index: 100001;
+    position: relative;
 }
 
 .search-button {
@@ -106,6 +108,7 @@ body {
     cursor: pointer;
     color: #666;
     font-size: 16px;
+    z-index: 1000000;
 }
 
 /* Header Actions */
@@ -517,7 +520,7 @@ body {
     display: none;
 }
 
-.europa-image{
+.europa-image {
     position: absolute;
     top: -1rem;
     right: -101px;
@@ -526,7 +529,7 @@ body {
     opacity: 0.9;
 }
 
-.europa-image-hidden{
+.europa-image-hidden {
     display: none;
 }
 
@@ -543,7 +546,7 @@ body {
     gap: 10px;
 }
 
-#countryListContainer{
+#countryListContainer {
     margin-top: 35px;
 }
 
@@ -700,6 +703,7 @@ body {
 
     .search-bar input {
         border-radius: 0px 17px 17px 0px;
+        padding: 10px 15px;
     }
 
     .text-green {
@@ -814,6 +818,7 @@ body {
 
     .search-bar input {
         font-size: 12px;
+        
     }
 
     .header-actions {

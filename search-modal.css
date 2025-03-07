@@ -10,17 +10,19 @@
 .search-dropdown {
     display: none;
     position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    border-radius: 11px;
+    top: 0%;
+    left: 1px;
+    width: 99.6%;
+    /* border-radius: 0 0 10px 11px; */
     right: 0;
     background: white;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000000000;
+    z-index: 10000;
     max-height: 80vh;
     overflow-y: auto;
     margin-top: 5px;
+    padding-top: 2rem;
+    
 }
 
 .search-dropdown.active {
@@ -185,9 +187,9 @@
 }
 
 .results-count a {
-    color: white;
-    background-color: #ff7518;
-    text-decoration: none;
+    color: #ff7518;
+    /* background-color: #ff7518; */
+    text-decoration: underline;
     font-size: 16px;
     display: flex;
     align-items: center;
@@ -270,6 +272,16 @@ body.modal-open {
 
     .results-count a {
         width: 60%;
+        color: white;
+        background-color: #ff7518;
+        text-decoration: none;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 20px;
+        border-radius: 50px;
+        gap: 4px;
     }
 
     .searchbar-container {
@@ -300,7 +312,7 @@ body.modal-open {
         display: flex;
         flex-direction: column;
         position: relative;
-        top: 3rem;
+        top: 1rem;
         left: 3rem;
         margin-top: 20px;
         max-height: calc(100vh - 60px);
