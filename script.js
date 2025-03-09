@@ -1,11 +1,48 @@
+const data = {
+    languages: [
+        { code: 'nl', text: 'Nederlands', flag: 'nl' },
+        { code: 'en', text: 'English', flag: 'gb' },
+        { code: 'de', text: 'Deutsch', flag: 'de' },
+        { code: 'fr', text: 'Français', flag: 'fr' },
+        { code: 'es', text: 'Español', flag: 'es' },
+        { code: 'it', text: 'Italiano', flag: 'it' }
+    ],
+    // countries: [
+    //     { code: 'nl', text: 'Nederland', flag: 'nl' },
+    //     { code: 'be', text: 'België', flag: 'be' },
+    //     { code: 'de', text: 'Duitsland', flag: 'de' },
+    //     { code: 'fr', text: 'Frankrijk', flag: 'fr' },
+    //     { code: 'gb', text: 'Verenigd Koninkrijk', flag: 'gb' },
+    //     { code: 'es', text: 'Spanje', flag: 'es' }
+    // ],
+    currencies: [
+        { code: 'EUR', text: 'Euro', symbol: '€', countryCode: 'eu' },
+        { code: 'GBP', text: 'Pound', symbol: '£', countryCode: 'gb' },
+        { code: 'USD', text: 'Dollar', symbol: '$', countryCode: 'us' },
+        { code: 'CHF', text: 'Franc', symbol: 'Fr.', countryCode: 'ch' },
+        { code: 'SEK', text: 'Krona', symbol: 'kr', countryCode: 'se' },
+        { code: 'NOK', text: 'Krone', symbol: 'kr', countryCode: 'no' }
+    ]
+};
+
+// Hardcoded countries
+const highlightedCountries = [
+    { code: 'nl', name: 'Nederland', flag: 'nl' },
+    { code: 'be', name: 'Belgium', flag: 'be' },
+    { code: 'de', name: 'Germany', flag: 'de' },
+    { code: 'fr', name: 'France', flag: 'fr' },
+    { code: 'gb', name: 'England', flag: 'gb' },
+    { code: 'es', name: 'Span', flag: 'es' }
+];
+
 const localeModal = (() => {
     let isModalOpen = false;
     let isSidebarOpen = false;
     let activeTab = 'language';
     const state = {
-        selectedLanguage: { text: 'Nederlands', code: 'nl' },
-        selectedCountry: { text: 'Nederland', code: 'nl' },
-        selectedCurrency: { text: 'EURO', symbol: '€', code: 'EUR' }
+        selectedLanguage: data.languages[0],
+        selectedCurrency: data.currencies[0],
+        selectedCountry: highlightedCountries[0],
     };
 
     // DOM Elements
@@ -15,81 +52,226 @@ const localeModal = (() => {
         closeBtn: document.getElementById('closeModal'),
         mobileSidebar: document.getElementById('mobileSidebar'),
         mobileMenuBtn: document.getElementById('mobileMenuBtn'),
-        closeSidebarBtn: document.getElementById('closeSidebarBtn')
+        closeSidebarBtn: document.getElementById('closeSidebarBtn'),
+        currencyFlag: document.getElementById('currency-flag'),
+        countryOptions: document.getElementById('countryOptions'),
+        languageOptions: document.getElementById('languageOptions'),
+        currencyOptions: document.getElementById('currencyOptions'),
+        tabsMenu: document.getElementById('tabsMenu'),
+        selectedLanguageHeader: document.querySelector('.selected-language'),
+        selectedCountryHeader: document.querySelector('.selected-country'),
+        selectedCurrencyHeader: document.querySelector('.selected-currency span'),
+        searchCountryInput: document.getElementById('searchCountry'),
+        europaImage: document.querySelector('.europa-image'),
+        countryListContainer: document.getElementById('countryListContainer')
     };
+
+    let allCountries = [];
+
+    // Fetch countries from API
+    async function fetchCountries() {
+        try {
+            const response = await fetch("https://restcountries.com/v3.1/all");
+            const data = await response.json();
+
+            // Filter for European countries only
+            const apiCountries = data.filter(country => country.region === "Europe");
+
+            // Merge hardcoded and API countries
+            allCountries = mergeCountries(highlightedCountries, apiCountries);
+
+            // Generate the country list
+            generateCountryList(allCountries);
+        } catch (error) {
+            console.error("Error fetching countries:", error);
+            elements.countryListContainer.textContent = "Failed to load countries.";
+        }
+    }
+
+    // Merge hardcoded and API countries
+    function mergeCountries(hardcoded, api) {
+        const merged = [...hardcoded];
+
+        // Add API countries if they don't already exist in the hardcoded list
+        api.forEach(apiCountry => {
+            const exists = hardcoded.some(hardcodedCountry => hardcodedCountry.code === apiCountry.cca2);
+            if (!exists) {
+                merged.push({
+                    code: apiCountry.cca2,
+                    name: apiCountry.name.common,
+                    flag: apiCountry.cca2.toLowerCase()
+                });
+            }
+        });
+
+        return merged;
+    }
+
+    // Generate the country list
+    function generateCountryList(countries) {
+        // Clear existing options
+        elements.countryOptions.innerHTML = "";
+        elements.countryListContainer.innerHTML = "";
+
+        // Create hardcoded country buttons
+        highlightedCountries.forEach(country => {
+            const countryButton = document.createElement("button");
+            countryButton.classList.add("option-btn");
+            countryButton.dataset.country = country.code;
+
+            const flagSpan = document.createElement("span");
+            flagSpan.classList.add("fi", `fi-${country.flag}`);
+            countryButton.appendChild(flagSpan);
+
+            const textSpan = document.createElement("span");
+            textSpan.classList.add("option-text");
+            textSpan.textContent = country.name;
+            countryButton.appendChild(textSpan);
+
+            elements.countryOptions.appendChild(countryButton);
+        });
+
+        // Create Europa section for API-fetched countries
+        const europaSection = document.createElement("div");
+        europaSection.classList.add("country-group");
+
+        const europaHeading = document.createElement("h3");
+        europaHeading.textContent = "Europa";
+        europaSection.appendChild(europaHeading);
+
+        const optionsGrid = document.createElement("div");
+        optionsGrid.classList.add("options-grid");
+
+        // Create API-fetched country buttons
+        countries.forEach(country => {
+            if (!highlightedCountries.some(hardcodedCountry => hardcodedCountry.code === country.code)) {
+                const countryButton = document.createElement("button");
+                countryButton.classList.add("option-btn");
+                countryButton.dataset.country = country.code;
+
+                const flagSpan = document.createElement("span");
+                flagSpan.classList.add("fi", `fi-${country.flag}`);
+                countryButton.appendChild(flagSpan);
+
+                const textSpan = document.createElement("span");
+                textSpan.classList.add("option-text");
+                textSpan.textContent = country.name;
+                countryButton.appendChild(textSpan);
+
+                optionsGrid.appendChild(countryButton);
+            }
+        });
+
+        europaSection.appendChild(optionsGrid);
+        elements.countryListContainer.appendChild(europaSection);
+
+        // Toggle europa-image visibility
+        if (countries.length > 0) {
+            elements.europaImage.classList.remove("europa-image-hidden");
+        } else {
+            elements.europaImage.classList.add("europa-image-hidden");
+        }
+    }
+
+    // Filter countries based on search term
+    function filterCountries(searchTerm) {
+        return allCountries.filter(country =>
+            country.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }
+
+    // Search functionality
+    function setupSearch() {
+        elements.searchCountryInput.addEventListener("input", function () {
+            const searchTerm = this.value.trim();
+            const filteredCountries = filterCountries(searchTerm);
+            generateCountryList(filteredCountries);
+        });
+    }
+
+    // Initialize Options
+    function initializeOptions() {
+        // Language Options
+        elements.languageOptions.innerHTML = data.languages.map(lang => `
+            <button class="option-btn" data-language="${lang.code}">
+                <span class="fi fi-${lang.flag}"></span>
+                <span class="option-text">${lang.text}</span>
+            </button>
+        `).join('');
+        elements.countryOptions.innerHTML = highlightedCountries.map(country => `
+            <button class="option-btn" data-language="${country.code}">
+                <span class="fi fi-${country.flag}"></span>
+                <span class="option-text">${country.text}</span>
+            </button>
+        `).join('');
+
+        // Currency Options
+        elements.currencyOptions.innerHTML = data.currencies.map(currency => `
+            <button class="option-btn" data-currency="${currency.code}" data-country-code="${currency.countryCode}">
+                <span class="fi fi-${currency.countryCode}"></span>
+                <span class="option-text">${currency.text} (${currency.symbol})</span>
+            </button>
+        `).join('');
+
+        // Fetch and generate countries
+        fetchCountries();
+    }
 
     // Event Handlers
     function handleClick(e) {
         const target = e.target;
 
-        // Handle all actionable elements first
+        // Handle selector clicks
         if (target.closest('.selector-btn, .mobile-selector')) {
             const selector = target.closest('.selector-btn, .mobile-selector');
             handleSelectorClick(selector);
             return;
         }
 
-        if (target.closest('#searchCountry')) {
-            return;
-        }
-
+        // Handle mobile menu button
         if (target.closest('#mobileMenuBtn')) {
             openSidebar();
             return;
         }
 
+        // Handle close sidebar button
         if (target.closest('#closeSidebarBtn')) {
             closeSidebar();
             return;
         }
 
+        // Handle close modal button
         if (target === elements.closeBtn) {
             closeModal();
             return;
         }
 
+        // Handle tab button clicks
         if (target.closest('.tab-btn')) {
             const tabButton = target.closest('.tab-btn');
             switchTab(tabButton.dataset.tab);
             return;
         }
 
+        // Handle option button clicks
         if (target.closest('.option-btn')) {
             const optionButton = target.closest('.option-btn');
             handleOptionSelection(optionButton);
             return;
         }
 
-        // Handle overlay click
+        // Handle overlay clicks
         if (target === elements.overlay) {
             if (isModalOpen) closeModal();
             if (isSidebarOpen) closeSidebar();
             return;
         }
 
-        // Close components if clicking outside
-        if (isSidebarOpen && !target.closest('#mobileSidebar')) {
-            closeSidebar();
-        }
-        if (isModalOpen && !target.closest('#languageModal')) {
-            closeModal();
-        }
+        // Close sidebar/modal if clicking outside
+        if (isSidebarOpen && !target.closest('#mobileSidebar')) closeSidebar();
+        if (isModalOpen && !target.closest('#languageModal')) closeModal();
     }
 
-    function handleKeyDown(e) {
-        if (e.key === 'Escape') {
-            if (isModalOpen) closeModal();
-            if (isSidebarOpen) closeSidebar();
-        }
-    }
-
-    function handleResize() {
-        if (window.innerWidth > 768 && isSidebarOpen) {
-            closeSidebar();
-        }
-    }
-
-    // Core Functions
     function handleSelectorClick(target) {
         const type = target.dataset.type;
         openModal();
@@ -98,137 +280,104 @@ const localeModal = (() => {
 
     function handleOptionSelection(button) {
         const { language, country, currency } = button.dataset;
-        const text = button.querySelector('.option-text')?.textContent || '';
 
         if (language) {
-            state.selectedLanguage = { text, code: language };
+            state.selectedLanguage = data.languages.find(lang => lang.code === language);
+            updateDisplay();
         } else if (country) {
-            state.selectedCountry = { text, code: country };
+            state.selectedCountry = allCountries.find(c => c.code === country);
+            updateDisplay();
         } else if (currency) {
-            state.selectedCurrency = {
-                text,
-                code: currency,
-                symbol: getCurrencySymbol(currency)
-            };
+            state.selectedCurrency = data.currencies.find(curr => curr.code === currency);
+            updateDisplay();
         }
 
-        updateDisplay();
-        closeModal(); // Only affects modal
+        // Close the modal after selection
+        closeModal(); 
     }
 
+    // Switch Tabs
     function switchTab(tabId) {
         activeTab = tabId;
         updateTabsUI();
         updateContentVisibility();
     }
 
-    // UI Updates
+    // Update Tabs UI
     function updateTabsUI() {
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.classList.toggle('active', btn.dataset.tab === activeTab);
         });
     }
 
+    // Update Content Visibility
     function updateContentVisibility() {
         document.querySelectorAll('.content-section').forEach(section => {
             section.hidden = section.id !== `${activeTab}Content`;
         });
     }
 
+    // Update Display
     function updateDisplay() {
-        // Language selector updates
-        const languageSelector = document.querySelector('.language-selector');
-        if (languageSelector) {
-            languageSelector.querySelector('.fi').className = `fi fi-${state.selectedLanguage.code}`;
-            languageSelector.querySelector('.selected-language').textContent = state.selectedLanguage.text;
+        // Update header elements
+        if (elements.selectedLanguageHeader) {
+            elements.selectedLanguageHeader.textContent = state.selectedLanguage.text;
         }
-
-        // Country selector updates
-        const countrySelector = document.querySelector('.country-currency-selector');
-        if (countrySelector) {
-            countrySelector.querySelector('.selected-country').textContent = state.selectedCountry.text;
-            countrySelector.querySelector('.selected-currency span').textContent = state.selectedCurrency.text;
+        if (elements.selectedCountryHeader) {
+            elements.selectedCountryHeader.textContent = state?.selectedCountry?.name;
         }
-
-        // Mobile selectors
-        document.querySelectorAll('.value-text').forEach(selector => {
-            if (selector.dataset.type === 'language') {
-                selector.querySelector('.fi').className = `fi fi-${state.selectedLanguage.code} icon-size`;
-                selector.querySelector('span:last-child').textContent = state?.selectedLanguage?.text;
-            } else if (selector.dataset.type === 'country') {
-                selector.querySelector('.fi').className = `fi fi-${state.selectedCountry.code} icon-size`;
-                selector.querySelector('span:last-child').textContent = `${state.selectedCountry.text}`;
-            } else if (selector.dataset.type === 'currency') {
-                selector.querySelector('.fi').className = `fi fi-${state.selectedCurrency.code} icon-size`;
-                selector.querySelector('span:last-child').textContent = ` ${state.selectedCurrency.symbol} ${state.selectedCurrency.text}`;
-            }
-        });
+        if (elements.selectedCurrencyHeader) {
+            elements.currencyFlag.className = `fi fi-${state.selectedCurrency.countryCode}`
+            elements.selectedCurrencyHeader.textContent = state.selectedCurrency.text;
+        }
     }
 
-    // Component Controls
+    // Open Modal
     function openModal() {
         isModalOpen = true;
         elements.modal.classList.add('active');
-        elements.overlay.style.display = "block";
+        elements.overlay.style.display = 'block';
         document.body.style.overflow = 'hidden';
-
-        // Set z-index for mobile
-        if (window.innerWidth <= 768) {
-            elements.overlay.style.zIndex = '100000';
-        }else{
-            elements.overlay.style.zIndex = '1000';
-        }
     }
 
+    // Close Modal
     function closeModal() {
         isModalOpen = false;
         elements.modal.classList.remove('active');
-        elements.overlay.style.display = "none";
+        elements.overlay.style.display = 'none';
         document.body.style.overflow = '';
-
-        // Reset z-index for mobile
-        if (window.innerWidth <= 768 && isSidebarOpen) {
-            elements.overlay.style.display = "block";
-            elements.overlay.style.zIndex = '1000';
-        }
     }
 
+    // Open Sidebar
     function openSidebar() {
         isSidebarOpen = true;
         elements.mobileSidebar.classList.add('active');
-        elements.overlay.style.display="block";
+        elements.overlay.style.display = 'block';
         document.body.style.overflow = 'hidden';
     }
 
+    // Close Sidebar
     function closeSidebar() {
         isSidebarOpen = false;
         elements.mobileSidebar.classList.remove('active');
-        elements.overlay.style.display="none";
+        elements.overlay.style.display = 'none';
         document.body.style.overflow = '';
-
-        // Reset z-index for mobile
-        // if (window.innerWidth <= 768) {
-        //     elements.overlay.style.zIndex = '1000';
-        // }
     }
 
-    // Helpers
-    function getCurrencySymbol(code) {
-        const symbols = {
-            'EUR': '€', 'GBP': '£', 'USD': '$',
-            'CHF': 'Fr.', 'SEK': 'kr', 'NOK': 'kr'
-        };
-        return symbols[code] || code;
-    }
-
-    // Initialization
+    // Initialize
     function init() {
-        // Event Listeners
+        initializeOptions();
+        setupSearch();
         document.body.addEventListener('click', handleClick);
-        document.addEventListener('keydown', handleKeyDown);
-        window.addEventListener('resize', handleResize);
-
-        // Initial UI setup
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (isModalOpen) closeModal();
+                if (isSidebarOpen) closeSidebar();
+            }
+        });
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768 && isSidebarOpen) closeSidebar();
+        });
         updateDisplay();
     }
 
