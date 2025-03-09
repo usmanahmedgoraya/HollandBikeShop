@@ -7,14 +7,6 @@ const data = {
         { code: 'es', text: 'Español', flag: 'es' },
         { code: 'it', text: 'Italiano', flag: 'it' }
     ],
-    // countries: [
-    //     { code: 'nl', text: 'Nederland', flag: 'nl' },
-    //     { code: 'be', text: 'België', flag: 'be' },
-    //     { code: 'de', text: 'Duitsland', flag: 'de' },
-    //     { code: 'fr', text: 'Frankrijk', flag: 'fr' },
-    //     { code: 'gb', text: 'Verenigd Koninkrijk', flag: 'gb' },
-    //     { code: 'es', text: 'Spanje', flag: 'es' }
-    // ],
     currencies: [
         { code: 'EUR', text: 'Euro', symbol: '€', countryCode: 'eu' },
         { code: 'GBP', text: 'Pound', symbol: '£', countryCode: 'gb' },
@@ -63,7 +55,11 @@ const localeModal = (() => {
         selectedCurrencyHeader: document.querySelector('.selected-currency span'),
         searchCountryInput: document.getElementById('searchCountry'),
         europaImage: document.querySelector('.europa-image'),
-        countryListContainer: document.getElementById('countryListContainer')
+        countryListContainer: document.getElementById('countryListContainer'),
+        // Mobile Sidebar Elements
+        mobileLanguageValue: document.getElementById('mobileLanguage'),
+        mobileCountryValue: document.getElementById('mobileCountry'),
+        mobileCurrencyValue: document.getElementById('mobileCurrency'),
     };
 
     let allCountries = [];
@@ -283,17 +279,60 @@ const localeModal = (() => {
 
         if (language) {
             state.selectedLanguage = data.languages.find(lang => lang.code === language);
-            updateDisplay();
         } else if (country) {
             state.selectedCountry = allCountries.find(c => c.code === country);
-            updateDisplay();
         } else if (currency) {
             state.selectedCurrency = data.currencies.find(curr => curr.code === currency);
-            updateDisplay();
         }
 
+        // Update the display for both desktop and mobile
+        updateDisplay();
+
         // Close the modal after selection
-        closeModal(); 
+        closeModal();
+    }
+
+    // Update Display
+    function updateDisplay() {
+        // Update desktop header elements
+        if (elements.selectedLanguageHeader) {
+
+            elements.selectedLanguageHeader.innerHTML = `
+                <span class="fi fi-${state.selectedLanguage.flag} icon-size"></span>
+                <span>${state.selectedLanguage.text}</span>
+            `;
+        }
+        if (elements.selectedCountryHeader) {
+            elements.selectedCountryHeader.innerHTML = `
+                <span class="fi fi-${state.selectedCountry.flag} icon-size"></span>
+                <span>${state.selectedCountry.name}</span>
+            `;
+        }
+        if (elements.selectedCurrencyHeader) {
+            elements.currencyFlag.className = `fi fi-${state.selectedCurrency.countryCode}`;
+            elements.selectedCurrencyHeader.textContent = state.selectedCurrency.text;
+        }
+
+        // Update mobile sidebar elements
+        if (elements.mobileLanguageValue) {
+
+            elements.mobileLanguageValue.innerHTML = `
+                <span class="fi fi-${state.selectedLanguage.flag} icon-size"></span>
+                <span>${state.selectedLanguage.text}</span>
+            `;
+        }
+        if (elements.mobileCountryValue) {
+            elements.mobileCountryValue.innerHTML = `
+                <span class="fi fi-${state.selectedCountry.flag} icon-size"></span>
+                <span>${state.selectedCountry.name}</span>
+            `;
+        }
+        if (elements.mobileCurrencyValue) {
+            elements.mobileCurrencyValue.innerHTML = `
+                <span class="fi fi-${state.selectedCurrency.countryCode} icon-size"></span>
+                <span>${state.selectedCurrency.text}</span>
+            `;
+        }
     }
 
     // Switch Tabs
@@ -315,21 +354,6 @@ const localeModal = (() => {
         document.querySelectorAll('.content-section').forEach(section => {
             section.hidden = section.id !== `${activeTab}Content`;
         });
-    }
-
-    // Update Display
-    function updateDisplay() {
-        // Update header elements
-        if (elements.selectedLanguageHeader) {
-            elements.selectedLanguageHeader.textContent = state.selectedLanguage.text;
-        }
-        if (elements.selectedCountryHeader) {
-            elements.selectedCountryHeader.textContent = state?.selectedCountry?.name;
-        }
-        if (elements.selectedCurrencyHeader) {
-            elements.currencyFlag.className = `fi fi-${state.selectedCurrency.countryCode}`
-            elements.selectedCurrencyHeader.textContent = state.selectedCurrency.text;
-        }
     }
 
     // Open Modal

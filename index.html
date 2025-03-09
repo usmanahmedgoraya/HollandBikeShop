@@ -87,7 +87,7 @@
         <div class="header-actions ">
             <div class="selector-group">
                 <button class="selector-btn language-selector" data-type="language">
-                    <span class="fi fi-nl"></span>
+                    <!-- <span class="fi fi-nl"></span> -->
                     <div class="flex items-end">
                         <span class="selected-language">Nederlands</span>
                         <i class="fa-solid fa-chevron-down"></i>
@@ -116,7 +116,8 @@
             </picture>
             <div class="cart-icon hide-before mr-3 mb-1">
                 <i class="fa-solid fa-bag-shopping"></i>
-                <span class="cart-badge">0</span>
+                <!-- Dynamic Badge -->
+                <span class="cart-badge" id="cartBadge">0</span>
                 <!-- Cart Modal -->
                 <div class="cart-modal" id="cartModal">
                     <div class="cart-header">
@@ -126,38 +127,14 @@
                         </div>
                     </div>
                     <div class="cart-content">
-                        <div class="cart-items">
-                            <div class="cart-item">
-                                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-02-20%20at%2010.46.19_c5d8a48f.jpg-NM6Xg8MJnm22H50e89PsVI4sF9DAq4.jpeg"
-                                    alt="BikeNL Zadeldekje" class="cart-item-image">
-                                <div class="cart-item-details">
-                                    <h3>BikeNL Zadeldekje Universeel Waterdicht</h3>
-                                    <div class="cart-item-price">
-                                        <span>1 stuk(s)</span>
-                                        <!-- <span class="original-price">€ 6,95</span> -->
-                                        <span class="discounted-price">€ 4,95</span>
-                                    </div>
-                                    <!-- <div class="cart-item-quantity">
-                            <button class="quantity-btn minus">-</button>
-                            <input type="number" value="1" min="1" max="99">
-                            <button class="quantity-btn plus">+</button>
-                        </div> -->
-                                </div>
-                                <!-- <button class="remove-item">×</button> -->
-                            </div>
+                        <div class="cart-items" id="cartItems">
+                            <!-- Dynamic Cart Items Will Be Inserted Here -->
                         </div>
                         <div class="cart-summary">
-                            <!-- <div class="summary-row">
-                    <span>Subtotaal</span>
-                    <span>€ 4,95</span>
-                </div>
-                <div class="summary-row">
-                    <span>Verzendkosten</span>
-                    <span>€ 4,95</span>
-                </div> -->
                             <div class="summary-row total">
                                 <span>Totaal</span>
-                                <span>€ 9,90</span>
+                                <!-- Dynamic Total -->
+                                <span id="cartTotal">€ 0,00</span>
                             </div>
                             <button class="checkout-btn">Bestellen</button>
                         </div>
@@ -228,7 +205,7 @@
             <div class="mobile-selectors">
                 <div class="grid grid-cols-3 align-items-center gap-4 ml-3">
                     <div class="text-sm">Taal</div>
-                    <div class="flex gap-1 small-text value-text" data-type="language">
+                    <div class="flex gap-1 small-text value-text" id="mobileLanguage" data-type="language">
                         <span class="fi fi-nl icon-size"></span>
                         <span>Nederlands</span>
                     </div>
@@ -237,7 +214,7 @@
                     </div>
 
                     <div class="text-sm">Besteeming</div>
-                    <div class="flex gap-1 small-text value-text" data-type="country">
+                    <div class="flex gap-1 small-text value-text" id="mobileCountry" data-type="country">
                         <span class="fi fi-nl icon-size"></span>
                         <span>Nederlands</span>
                     </div>
@@ -246,7 +223,7 @@
                     </div>
 
                     <div class="text-sm">Valuta</div>
-                    <div class="flex gap-1 small-text value-text" data-type="currency">
+                    <div class="flex gap-1 small-text value-text" id="mobileCurrency" data-type="currency">
                         <span class="fi fi-nl icon-size"></span>
                         <span>Nederlands</span>
                     </div>

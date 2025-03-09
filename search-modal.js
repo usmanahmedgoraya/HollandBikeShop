@@ -363,7 +363,7 @@ const searchDropdown = (() => {
         state.isMobile = window.innerWidth <= 768;
 
         // Close dropdown if screen size exceeds 768px
-        if (wasMobile && !state.isMobile && state.isOpen) { 
+        if (wasMobile && !state.isMobile && state.isOpen) {
             closeDropdown();
         }
 
@@ -371,7 +371,7 @@ const searchDropdown = (() => {
         if (state.isMobile && state.isOpen) {
             closeDropdown();
         } else {
-           
+
             if (elements.mobileHeader) {
                 elements.mobileHeader.style.display = "none";
             }
@@ -437,7 +437,7 @@ const searchDropdown = (() => {
                 state.hasSearched = true;
                 toggleClearButton();
                 searchProducts();
-                closeDropdown(); 
+                closeDropdown();
             }
         });
 
