@@ -25,7 +25,7 @@ const cartModal = (() => {
     // Function to Render Cart Items
     function renderCartItems() {
         // Clear existing items
-        elements.cartItemsContainer.innerHTML = ""; 
+        elements.cartItemsContainer.innerHTML = "";
 
         let totalPrice = 0;
 
@@ -71,9 +71,11 @@ const cartModal = (() => {
     // Function to Open Cart Modal
     function openCart() {
         if (!elements.modal || !elements.overlay) return;
+
         state.isOpen = true;
 
         elements.modal.classList.add('active');
+        elements.overlay.classList.add('active');
         elements.header.classList.add('header-without-shadow');
         elements.cartBtn.classList.remove('hide-before');
         elements.cartBtn.classList.add('cart-icon-color');
@@ -85,24 +87,42 @@ const cartModal = (() => {
     // Function to Close Cart Modal
     function closeCart() {
         if (!elements.modal || !elements.overlay) return;
+
         state.isOpen = false;
 
         elements.modal.classList.remove('active');
+        elements.overlay.classList.remove('active');
         document.body.style.overflow = '';
         elements.header.classList.remove('box-shadow');
         elements.cartBtn.classList.add('hide-before');
         elements.cartBtn.classList.remove('cart-icon-color');
     }
 
+    // Function to Toggle Cart Modal (only for cart button)
+    function toggleCart() {
+        if (state.isOpen) {
+            closeCart();
+        } else {
+            openCart();
+        }
+    }
+
     // Event Listener for Clicks
     function handleClick(e) {
         const target = e.target;
 
-        if (target.closest('.cart-icon')) {
-            openCart();
-        } else if (target.closest('.close-cart') || (!target.closest('.cart-modal') && state.isOpen)) {
+        // Toggle modal only when cart button is clicked
+        if (target.closest('.fa-solid') || target.closest('.cart-badge')) {
+            toggleCart();
+        }
+
+        // Close modal when clicking outside the modal container
+        if (state.isOpen && !target.closest('.cart-modal') && !target.closest('.cart-icon')) {
             closeCart();
-        } else if (target.classList.contains('remove-item')) {
+        }
+
+        // Remove item when remove button is clicked
+        if (target.classList.contains('remove-item')) {
             removeItem(target.closest('.cart-item'));
         }
     }
@@ -111,7 +131,7 @@ const cartModal = (() => {
     function init() {
         document.addEventListener('click', handleClick);
         // Render cart items on page load
-        renderCartItems(); 
+        renderCartItems();
     }
 
     return { init };

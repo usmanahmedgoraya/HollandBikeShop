@@ -194,12 +194,6 @@ const localeModal = (() => {
                 <span class="option-text">${lang.text}</span>
             </button>
         `).join('');
-        elements.countryOptions.innerHTML = highlightedCountries.map(country => `
-            <button class="option-btn" data-language="${country.code}">
-                <span class="fi fi-${country.flag}"></span>
-                <span class="option-text">${country.text}</span>
-            </button>
-        `).join('');
 
         // Currency Options
         elements.currencyOptions.innerHTML = data.currencies.map(currency => `
@@ -296,7 +290,6 @@ const localeModal = (() => {
     function updateDisplay() {
         // Update desktop header elements
         if (elements.selectedLanguageHeader) {
-
             elements.selectedLanguageHeader.innerHTML = `
                 <span class="fi fi-${state.selectedLanguage.flag} icon-size"></span>
                 <span>${state.selectedLanguage.text}</span>
@@ -315,7 +308,6 @@ const localeModal = (() => {
 
         // Update mobile sidebar elements
         if (elements.mobileLanguageValue) {
-
             elements.mobileLanguageValue.innerHTML = `
                 <span class="fi fi-${state.selectedLanguage.flag} icon-size"></span>
                 <span>${state.selectedLanguage.text}</span>
@@ -332,6 +324,33 @@ const localeModal = (() => {
                 <span class="fi fi-${state.selectedCurrency.countryCode} icon-size"></span>
                 <span>${state.selectedCurrency.text}</span>
             `;
+        }
+
+        // Add active class to selected options
+        updateActiveClasses();
+    }
+
+    // Add active class to selected options
+    function updateActiveClasses() {
+        // Remove active class from all option buttons
+        document.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('active'));
+
+        // Add active class to selected language button
+        const selectedLanguageBtn = document.querySelector(`.option-btn[data-language="${state.selectedLanguage.code}"]`);
+        if (selectedLanguageBtn) {
+            selectedLanguageBtn.classList.add('active');
+        }
+
+        // Add active class to selected country button
+        const selectedCountryBtn = document.querySelector(`.option-btn[data-country="${state.selectedCountry.code}"]`);
+        if (selectedCountryBtn) {
+            selectedCountryBtn.classList.add('active');
+        }
+
+        // Add active class to selected currency button
+        const selectedCurrencyBtn = document.querySelector(`.option-btn[data-currency="${state.selectedCurrency.code}"]`);
+        if (selectedCurrencyBtn) {
+            selectedCurrencyBtn.classList.add('active');
         }
     }
 
@@ -360,7 +379,7 @@ const localeModal = (() => {
     function openModal() {
         isModalOpen = true;
         elements.modal.classList.add('active');
-        elements.overlay.style.display = 'block';
+        elements.overlay.classList.add('force-overlay');
         document.body.style.overflow = 'hidden';
     }
 
@@ -368,7 +387,7 @@ const localeModal = (() => {
     function closeModal() {
         isModalOpen = false;
         elements.modal.classList.remove('active');
-        elements.overlay.style.display = 'none';
+        elements.overlay.classList.remove('force-overlay');
         document.body.style.overflow = '';
     }
 
@@ -377,7 +396,7 @@ const localeModal = (() => {
         isSidebarOpen = true;
         elements.mobileSidebar.classList.add('active');
         elements.overlay.style.display = 'block';
-        document.body.style.overflow = 'hidden';
+        document.body.classList.add('force-overflow-hidden');
     }
 
     // Close Sidebar
@@ -385,7 +404,7 @@ const localeModal = (() => {
         isSidebarOpen = false;
         elements.mobileSidebar.classList.remove('active');
         elements.overlay.style.display = 'none';
-        document.body.style.overflow = '';
+        document.body.classList.remove('force-overflow-hidden');
     }
 
     // Initialize

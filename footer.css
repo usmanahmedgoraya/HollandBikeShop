@@ -181,6 +181,7 @@ body {
   justify-content: center;
   border-radius: 5px;
   color: white;
+  text-decoration: none;
 }
 
 .instagram {
@@ -307,7 +308,7 @@ body {
 
 .rating .rating-count {
   font-size: 12px;
-  padding-left: 10px;
+  /* padding-left: 10px; */
   color: white;
 }
 

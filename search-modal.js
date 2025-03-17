@@ -332,6 +332,7 @@ const searchDropdown = (() => {
         } else {
             if (elements.overlay) {
                 elements.overlay.classList.add("active");
+                document.body.classList.add("force-overflow-hidden");
             }
         }
     }
@@ -354,6 +355,7 @@ const searchDropdown = (() => {
             elements.searchContainer.classList.remove("mobile-active");
             if (elements.overlay) {
                 elements.overlay.classList.remove("active");
+                document.body.classList.remove("force-overflow-hidden");
             }
         }
     }

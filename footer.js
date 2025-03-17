@@ -225,7 +225,7 @@ function generateFooter() {
           )
           .join("")}
         <div class="footer-column rating-column">
-          <h3 class="column-title pl-3">${footerData.ratings.title}</h3>
+          <h3 class="column-title">${footerData.ratings.title}</h3>
           <div class="rating">
             <div class="stars">
               ${'<span class="star"><i class="fa-solid fa-star"></i></span>'.repeat(
