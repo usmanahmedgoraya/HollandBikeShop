@@ -103,14 +103,47 @@ const localeModal = (() => {
         return merged;
     }
 
-    // Generate the country list
-    function generateCountryList(countries) {
-        // Clear existing options
-        elements.countryOptions.innerHTML = "";
-        elements.countryListContainer.innerHTML = "";
+// Generate the country list
+function generateCountryList(countries) {
+    // Clear existing options
+    elements.countryOptions.innerHTML = "";
+    elements.countryListContainer.innerHTML = "";
 
-        // Create hardcoded country buttons
-        highlightedCountries.forEach(country => {
+    // Sort countries alphabetically by name
+    countries.sort((a, b) => a.name.localeCompare(b.name));
+
+    // Create hardcoded country buttons
+    highlightedCountries.forEach(country => {
+        const countryButton = document.createElement("button");
+        countryButton.classList.add("option-btn");
+        countryButton.dataset.country = country.code;
+
+        const flagSpan = document.createElement("span");
+        flagSpan.classList.add("fi", `fi-${country.flag}`);
+        countryButton.appendChild(flagSpan);
+
+        const textSpan = document.createElement("span");
+        textSpan.classList.add("option-text");
+        textSpan.textContent = country.name;
+        countryButton.appendChild(textSpan);
+
+        elements.countryOptions.appendChild(countryButton);
+    });
+
+    // Create Europa section for API-fetched countries
+    const europaSection = document.createElement("div");
+    europaSection.classList.add("country-group");
+
+    const europaHeading = document.createElement("h3");
+    europaHeading.textContent = "Europa";
+    europaSection.appendChild(europaHeading);
+
+    const optionsGrid = document.createElement("div");
+    optionsGrid.classList.add("options-grid");
+
+    // Create API-fetched country buttons
+    countries.forEach(country => {
+        if (!highlightedCountries.some(hardcodedCountry => hardcodedCountry.code === country.code)) {
             const countryButton = document.createElement("button");
             countryButton.classList.add("option-btn");
             countryButton.dataset.country = country.code;
@@ -124,50 +157,20 @@ const localeModal = (() => {
             textSpan.textContent = country.name;
             countryButton.appendChild(textSpan);
 
-            elements.countryOptions.appendChild(countryButton);
-        });
-
-        // Create Europa section for API-fetched countries
-        const europaSection = document.createElement("div");
-        europaSection.classList.add("country-group");
-
-        const europaHeading = document.createElement("h3");
-        europaHeading.textContent = "Europa";
-        europaSection.appendChild(europaHeading);
-
-        const optionsGrid = document.createElement("div");
-        optionsGrid.classList.add("options-grid");
-
-        // Create API-fetched country buttons
-        countries.forEach(country => {
-            if (!highlightedCountries.some(hardcodedCountry => hardcodedCountry.code === country.code)) {
-                const countryButton = document.createElement("button");
-                countryButton.classList.add("option-btn");
-                countryButton.dataset.country = country.code;
-
-                const flagSpan = document.createElement("span");
-                flagSpan.classList.add("fi", `fi-${country.flag}`);
-                countryButton.appendChild(flagSpan);
-
-                const textSpan = document.createElement("span");
-                textSpan.classList.add("option-text");
-                textSpan.textContent = country.name;
-                countryButton.appendChild(textSpan);
-
-                optionsGrid.appendChild(countryButton);
-            }
-        });
-
-        europaSection.appendChild(optionsGrid);
-        elements.countryListContainer.appendChild(europaSection);
-
-        // Toggle europa-image visibility
-        if (countries.length > 0) {
-            elements.europaImage.classList.remove("europa-image-hidden");
-        } else {
-            elements.europaImage.classList.add("europa-image-hidden");
+            optionsGrid.appendChild(countryButton);
         }
+    });
+
+    europaSection.appendChild(optionsGrid);
+    elements.countryListContainer.appendChild(europaSection);
+
+    // Toggle europa-image visibility
+    if (countries.length > 0) {
+        elements.europaImage.classList.remove("europa-image-hidden");
+    } else {
+        elements.europaImage.classList.add("europa-image-hidden");
     }
+}
 
     // Filter countries based on search term
     function filterCountries(searchTerm) {

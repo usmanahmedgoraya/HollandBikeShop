@@ -63,6 +63,7 @@ const searchDropdown = (() => {
         clearButton: document.querySelector(".clear-button"),
         noResultsContainer: document.createElement("div"),
         resultsCountElement: document.querySelector(".results-count"),
+        topBanner: document.querySelector(".top-banner"),
     };
 
     // Initialize the no results container
@@ -315,6 +316,8 @@ const searchDropdown = (() => {
 
         if (state.isMobile && state.isOpen) {
             document.body.classList.add("modal-open");
+            elements.searchButton.style.display = "none";
+            elements.topBanner.style.zIndex = "100000";
             elements.searchContainer.classList.add("mobile-active");
 
             if (elements.mobileHeader) {
@@ -343,6 +346,8 @@ const searchDropdown = (() => {
 
         if (state.isMobile) {
             document.body.classList.remove("modal-open");
+            elements.searchButton.style.display = "block";
+            elements.topBanner.style.zIndex = "20000";
             elements.searchContainer.classList.remove("mobile-active");
             if (elements.mobileHeader) {
                 elements.mobileHeader.style.display = "none";
@@ -352,6 +357,8 @@ const searchDropdown = (() => {
             }
         } else {
             document.body.classList.remove("modal-open");
+            elements.searchButton.style.display = "block";
+            elements.topBanner.style.zIndex = "20000";
             elements.searchContainer.classList.remove("mobile-active");
             if (elements.overlay) {
                 elements.overlay.classList.remove("active");

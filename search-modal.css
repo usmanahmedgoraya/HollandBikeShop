@@ -73,6 +73,7 @@
     display: block;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
 }
 
 .product-card {
@@ -202,22 +203,24 @@
 .results-count a {
     color: #ff7518;
     /* background-color: #ff7518; */
-    text-decoration: underline;
+    text-decoration: none;
+    border-bottom: 2px solid #ff7518;
     font-size: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 20px;
-    border-radius: 50px;
-    gap: 4px;
-    width: 40%;
+    /* padding: 10px 20px; */
+    /* border-radius: 50px; */
+    gap: 10px;
+    width: 20%;
+    text-wrap: nowrap;
 }
 
 /* Mobile Search Header */
 .mobile-search-header {
     display: none;
     position: fixed;
-    top: 0;
+    top: 30px;
     left: 0;
     width: 100%;
     background: white;
@@ -325,7 +328,7 @@ body.modal-open {
         display: flex;
         flex-direction: column;
         position: relative;
-        top: 1rem;
+        top: 2rem;
         left: 3rem;
         margin-top: 20px;
         max-height: calc(100vh - 60px);
