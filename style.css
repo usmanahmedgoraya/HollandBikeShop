@@ -131,7 +131,7 @@ body {
     display: flex;
     align-items: center;
     /* flex-direction: column; */
-    gap: 8px;
+    gap: 0.8rem;
 }
 
 .selector-btn {
@@ -414,7 +414,11 @@ body {
 }
 
 
-
+.selecteer-title{
+    display: flex;
+     gap: 8px;
+     margin-bottom: 10px;
+}
 
 .nav-actions {
     display: flex;
@@ -582,7 +586,7 @@ body {
 
 .content-section h3 {
     margin: 10px 0;
-    font-size: 12px;
+    font-size: 18px;
     color: #333;
     font-weight: 600;
 }
@@ -742,6 +746,9 @@ body {
 }
 
 @media (max-width: 768px) {
+    .content-section h3 {
+      font-size: 12px;  
+    }
     .tab-content{
         padding: 20px 12px;
         max-height: 23rem;

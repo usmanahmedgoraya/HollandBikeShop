@@ -5,7 +5,11 @@ const data = {
         { code: 'de', text: 'Deutsch', flag: 'de' },
         { code: 'fr', text: 'Français', flag: 'fr' },
         { code: 'es', text: 'Español', flag: 'es' },
-        { code: 'it', text: 'Italiano', flag: 'it' }
+        { code: 'it', text: 'Italiano', flag: 'it' },
+        { code: 'pt', text: 'Português', flag: 'pt' },
+        { code: 'ru', text: 'Русский', flag: 'ru' }, 
+        { code: 'zh', text: '中文', flag: 'cn' }, 
+        { code: 'ja', text: '日本語', flag: 'jp' }
     ],
     currencies: [
         { code: 'EUR', text: 'Euro', symbol: '€', countryCode: 'eu' },
@@ -13,7 +17,11 @@ const data = {
         { code: 'USD', text: 'Dollar', symbol: '$', countryCode: 'us' },
         { code: 'CHF', text: 'Franc', symbol: 'Fr.', countryCode: 'ch' },
         { code: 'SEK', text: 'Krona', symbol: 'kr', countryCode: 'se' },
-        { code: 'NOK', text: 'Krone', symbol: 'kr', countryCode: 'no' }
+        { code: 'NOK', text: 'Krone', symbol: 'kr', countryCode: 'no' },
+        { code: 'DKK', text: 'Krone', symbol: 'kr', countryCode: 'dk' },
+        { code: 'AUD', text: 'Dollar', symbol: 'A$', countryCode: 'au' }, 
+        { code: 'CAD', text: 'Dollar', symbol: 'C$', countryCode: 'ca' },
+        { code: 'JPY', text: 'Yen', symbol: '¥', countryCode: 'jp' }
     ]
 };
 
